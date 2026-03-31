@@ -1,0 +1,10 @@
+.next/
+node_modules/
+.git/
+.env
+.env.local
+.env.production
+npm-debug.log*
+README.md
+prisma/seed.ts
+prisma/seed-mocks.ts
