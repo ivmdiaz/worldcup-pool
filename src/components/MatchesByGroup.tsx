@@ -45,7 +45,7 @@ function bogotaParts(d: Date | string): { year: string; month: string; day: stri
   };
 }
 
-function formatDate(date: Date): string {
+function formatDate(date: Date | string): string {
   return new Date(date).toLocaleDateString("es", {
     weekday: "short", day: "numeric", month: "short",
     hour: "2-digit", minute: "2-digit",
