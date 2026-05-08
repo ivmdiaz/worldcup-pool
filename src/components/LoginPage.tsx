@@ -26,7 +26,7 @@ export default function LoginPage({ devUsers = [] }: LoginPageProps) {
       body: JSON.stringify({ userId }),
     });
     if (res.ok) {
-      router.push("/matches");
+      router.push("/home");
       router.refresh();
     } else {
       setLoadingId(null);

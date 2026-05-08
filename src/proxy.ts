@@ -17,12 +17,12 @@ export default auth((req) => {
 
   // USER no puede acceder a /admin
   if (req.auth && role === "USER" && pathname.startsWith("/admin")) {
-    return NextResponse.redirect(new URL("/matches", req.url));
+    return NextResponse.redirect(new URL("/home", req.url));
   }
 
   // Autenticado y aprobado: no tiene sentido estar en / ni /pending
   if (req.auth && (role === "USER" || role === "ADMIN") && (pathname === "/" || pathname === "/pending")) {
-    return NextResponse.redirect(new URL("/matches", req.url));
+    return NextResponse.redirect(new URL("/home", req.url));
   }
 });
 

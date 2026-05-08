@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { approveUser, rejectUser } from "./actions";
+import UserAvatar from "@/components/UserAvatar";
+import { C } from "@/lib/tokens";
 
 export default async function AdminUsersPage() {
   const [pendingUsers, approvedUsers] = await Promise.all([
@@ -8,35 +10,47 @@ export default async function AdminUsersPage() {
   ]);
 
   return (
-    <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold text-slate-900 mb-8">Usuarios</h1>
+    <div className="flex flex-col" style={{ height: "100dvh" }}>
 
-      <section className="mb-8">
-        <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">
-          Pendientes ({pendingUsers.length})
-        </h2>
+      {/* Hero */}
+      <div
+        className="relative h-36 w-full shrink-0"
+        style={{ background: "linear-gradient(135deg, #1e293b 0%, #334155 100%)" }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        <div className="relative z-10 h-full flex items-end px-5 pb-5">
+          <p className="text-white font-bold text-4xl tracking-wide drop-shadow-lg">Usuarios</p>
+        </div>
+      </div>
 
-        {pendingUsers.length === 0 ? (
-          <div className="bg-white rounded-xl border border-slate-200 px-5 py-4 text-sm text-slate-400">
-            No hay usuarios pendientes.
-          </div>
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {pendingUsers.map((user) => (
-              <li
+      {/* Content */}
+      <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-4 pb-24 flex flex-col gap-6">
+
+        {/* Pendientes */}
+        <section className="flex flex-col gap-2">
+          <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">
+            Pendientes ({pendingUsers.length})
+          </p>
+          {pendingUsers.length === 0 ? (
+            <p className="text-sm text-gray-400 text-center py-6">Sin usuarios pendientes.</p>
+          ) : (
+            pendingUsers.map((user) => (
+              <div
                 key={user.id}
-                className="bg-white border border-slate-200 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                className="bg-white rounded-2xl shadow-[0_6px_14px_rgba(0,0,0,0.10)] px-4 py-3 flex items-center gap-3"
               >
-                <div className="min-w-0">
-                  <p className="font-medium text-slate-900 truncate">{user.name}</p>
-                  <p className="text-sm text-slate-500 truncate">{user.email}</p>
+                <UserAvatar name={user.name} email={user.email} image={user.image} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-gray-900 truncate">{user.name ?? "—"}</p>
+                  <p className="text-xs font-medium text-gray-500 truncate mt-0.5">{user.email}</p>
                 </div>
                 <div className="flex gap-2 shrink-0">
                   <form action={approveUser}>
                     <input type="hidden" name="userId" value={user.id} />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
+                      className="h-9 px-4 rounded-xl text-sm font-bold text-white cursor-pointer active:opacity-80"
+                      style={{ backgroundColor: C.primary }}
                     >
                       Aprobar
                     </button>
@@ -45,46 +59,48 @@ export default async function AdminUsersPage() {
                     <input type="hidden" name="userId" value={user.id} />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors cursor-pointer"
+                      className="h-9 px-4 rounded-xl text-sm font-semibold cursor-pointer active:opacity-80 border"
+                      style={{ borderColor: C.dangerBorder, color: C.dangerText, backgroundColor: C.dangerBg }}
                     >
                       Rechazar
                     </button>
                   </form>
                 </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+              </div>
+            ))
+          )}
+        </section>
 
-      <section>
-        <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">
-          Aprobados ({approvedUsers.length})
-        </h2>
-
-        {approvedUsers.length === 0 ? (
-          <div className="bg-white rounded-xl border border-slate-200 px-5 py-4 text-sm text-slate-400">
-            No hay usuarios aprobados aún.
-          </div>
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {approvedUsers.map((user) => (
-              <li
+        {/* Aprobados */}
+        <section className="flex flex-col gap-2">
+          <p className="text-[12px] font-bold text-gray-500 uppercase tracking-widest">
+            Aprobados ({approvedUsers.length})
+          </p>
+          {approvedUsers.length === 0 ? (
+            <p className="text-sm text-gray-400 text-center py-6">Sin usuarios aprobados aún.</p>
+          ) : (
+            approvedUsers.map((user) => (
+              <div
                 key={user.id}
-                className="bg-white border border-slate-200 rounded-xl px-5 py-4 flex items-center justify-between"
+                className="bg-white rounded-2xl shadow-[0_6px_14px_rgba(0,0,0,0.10)] px-4 py-3 flex items-center gap-3"
               >
-                <div className="min-w-0">
-                  <p className="font-medium text-slate-900 truncate">{user.name}</p>
-                  <p className="text-sm text-slate-500 truncate">{user.email}</p>
+                <UserAvatar name={user.name} email={user.email} image={user.image} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-gray-900 truncate">{user.name ?? "—"}</p>
+                  <p className="text-xs font-medium text-gray-500 truncate mt-0.5">{user.email}</p>
                 </div>
-                <span className="ml-4 shrink-0 text-xs font-semibold text-green-700 bg-green-50 px-3 py-1 rounded-full">
+                <span
+                  className="text-[12px] font-bold px-3 py-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: C.successBg, color: C.successText, border: `1px solid ${C.successBorder}` }}
+                >
                   Activo
                 </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+              </div>
+            ))
+          )}
+        </section>
+
+      </div>
     </div>
   );
 }

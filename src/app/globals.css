@@ -6,4 +6,70 @@
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  overscroll-behavior: none;
+}
+
+button, a {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Entrance: staggered slide-up fade ── */
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-entrance {
+  animation: slide-up-fade 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Modal pop-in ── */
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.animate-modal-in {
+  animation: modal-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Ken Burns: slow cinematic zoom on card backgrounds ── */
+@keyframes kenBurns {
+  0%   { transform: scale(1)    translate(0,     0);    }
+  50%  { transform: scale(1.08) translate(-1%, -0.5%);  }
+  100% { transform: scale(1)    translate(0,     0);    }
+}
+
+.card-bg {
+  animation: kenBurns var(--kb-duration, 9s) ease-in-out infinite;
+  animation-delay: var(--kb-delay, 0s);
+}
+
+.nav-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── View Transitions — shared element names ── */
+.vt-partidos  { view-transition-name: partidos-header; }
+.vt-ranking   { view-transition-name: ranking-header; }
+.vt-tabla     { view-transition-name: tabla-header; }
+
+::view-transition-group(*) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
