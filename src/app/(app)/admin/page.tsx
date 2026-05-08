@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { prisma } from "@/lib/prisma";
 import { approveUser, rejectUser } from "./users/actions";
 import AdminMatchesClient from "@/components/AdminMatchesClient";
