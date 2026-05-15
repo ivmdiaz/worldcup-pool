@@ -16,17 +16,28 @@ const PODIUM_PB: Record<1 | 2 | 3, number> = { 1: 64, 2: 32, 3: 12 };
 
 // ── Confetti ──────────────────────────────────────────────────────────────────
 const CONFETTI_COLORS = ["#F59E0B", "#1E8E3E", "#60A5FA", "#F87171", "#A78BFA", "#34D399", "#FB923C"];
-const CONFETTI_ANIM   = ["confettiA", "confettiB", "confettiC"] as const;
-const CONFETTI = Array.from({ length: 32 }, (_, i) => ({
-  id: i,
-  color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-  left: `${(i * 3.2 + 1) % 100}%`,
-  duration: `${0.9 + (i % 5) * 0.2}s`,   // 0.9–1.7s — rápido
-  delay: `${(i * 0.18) % 2.5}s`,
-  size: [5, 8, 6, 7, 5, 9][i % 6],
-  round: i % 4 !== 0,
-  anim: CONFETTI_ANIM[i % 3],
-}));
+
+// 3 orígenes de disparo (% del contenedor)
+const ORIGINS = [{ x: 28, y: 82 }, { x: 50, y: 78 }, { x: 72, y: 82 }];
+
+const CONFETTI = Array.from({ length: 39 }, (_, i) => {
+  const angle = (i / 39) * Math.PI * 2;                  // 360° completos
+  const dist  = 80 + (i % 4) * 30;                       // 80–170 px de alcance
+  const origin = ORIGINS[i % 3];
+  return {
+    id:       i,
+    color:    CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    left:     `${origin.x}%`,
+    top:      `${origin.y}%`,
+    fwX:      Math.round(Math.cos(angle) * dist),
+    fwY:      Math.round(Math.sin(angle) * dist - 110),   // sesgo hacia arriba
+    rotation: (i * 137) % 720,
+    duration: `${1.0 + (i % 4) * 0.18}s`,
+    delay:    `${(i % 3) * 0.4}s`,                        // stagger por origen
+    size:     [5, 7, 6, 8, 6][i % 5],
+    round:    i % 3 !== 0,
+  };
+});
 
 // ── Components ────────────────────────────────────────────────────────────────
 function CrownIcon({ color }: { color: string }) {
@@ -170,13 +181,16 @@ export default function RankingClient({ entries, currentUserId }: Props) {
               style={{
                 position: "absolute",
                 left: p.left,
-                top: 0,
+                top: p.top,
                 width: p.size,
                 height: p.size,
                 backgroundColor: p.color,
                 borderRadius: p.round ? "50%" : "2px",
-                animation: `${p.anim} ${p.duration} ${p.delay} ease-in infinite`,
-              }}
+                "--fw-x": `${p.fwX}px`,
+                "--fw-y": `${p.fwY}px`,
+                "--fw-r": `${p.rotation}deg`,
+                animation: `firework ${p.duration} ${p.delay} ease-out infinite`,
+              } as React.CSSProperties}
             />
           ))}
         </div>
