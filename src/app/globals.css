@@ -64,6 +64,16 @@ button, a {
   overflow: hidden;
 }
 
+/* ── Podium float: gentle continuous bounce for podium slots ── */
+@keyframes podiumFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+
+.animate-podium-float {
+  animation: podiumFloat 1.8s ease-in-out infinite;
+}
+
 /* ── View Transitions — shared element names ── */
 .vt-partidos  { view-transition-name: partidos-header; }
 .vt-ranking   { view-transition-name: ranking-header; }

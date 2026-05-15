@@ -9,11 +9,12 @@ import RankingUserSheet from "@/components/RankingUserSheet";
 
 const MEDAL_COLOR = ["#F59E0B", "#94A3B8", "#92400E"] as const;
 const PEDESTAL_H  = [90, 65, 45] as const;
+const FLOAT_DELAY = [0, 400, 800] as const; // stagger por posición
 
-function CrownIcon() {
+function CrownIcon({ color }: { color: string }) {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" className="drop-shadow">
-      <path d="M2 19h20v2H2v-2zM2 6l5 6 5-8 5 8 5-6v11H2V6z" />
+    <svg width="22" height="22" viewBox="0 0 24 24" fill={color} className="drop-shadow-md">
+      <path d="M2 19h20v2H2v-2zM2 6l5 6 5-8 5 6 5-6v11H2V6z" />
     </svg>
   );
 }
@@ -48,6 +49,8 @@ function PodiumSlot({
   const medalColor = MEDAL_COLOR[position - 1];
   const avatarSize = position === 1 ? 60 : 46;
 
+  const floatDelay = FLOAT_DELAY[position - 1];
+
   if (!entry) {
     return (
       <div className="flex-1 flex flex-col items-center justify-end">
@@ -59,22 +62,17 @@ function PodiumSlot({
   return (
     <button
       onClick={onClick}
-      className="flex-1 flex flex-col items-center gap-1 cursor-pointer active:opacity-80 transition-opacity"
+      className="flex-1 flex flex-col items-center gap-0 cursor-pointer active:opacity-80 transition-opacity animate-podium-float"
+      style={{ animationDelay: `${floatDelay}ms` }}
     >
-      {/* Crown for #1, position badge for #2/#3 */}
-      {position === 1 ? (
-        <CrownIcon />
-      ) : (
-        <span
-          className="rounded-full px-2 py-0.5"
-          style={{ fontSize: FS.micro, fontWeight: FW.extrabold, color: medalColor, backgroundColor: `${medalColor}25` }}
-        >
-          #{position}
-        </span>
-      )}
-
-      {/* Avatar */}
-      <Avatar name={entry.name} image={entry.image} size={avatarSize} />
+      {/* Avatar con corona overlaid */}
+      <div className="relative mb-1">
+        <Avatar name={entry.name} image={entry.image} size={avatarSize} />
+        {/* Corona centrada encima del avatar */}
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+          <CrownIcon color={medalColor} />
+        </div>
+      </div>
 
       {/* Name */}
       <p
