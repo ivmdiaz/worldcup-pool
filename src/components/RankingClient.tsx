@@ -21,19 +21,19 @@ const SPARK_LENGTHS = [8, 12, 10, 14, 9, 13];
 
 const CONFETTI = Array.from({ length: 42 }, (_, i) => {
   const angle     = (i / 42) * Math.PI * 2;
-  const dist      = 80 + (i % 5) * 30;              // 80–200px
+  const dist      = 60 + (i % 5) * 20;              // 60–140px de explosión
   const travelDeg = angle * (180 / Math.PI);
   const rotateDeg = Math.round(travelDeg + 90);
   return {
     id:       i,
     color:    CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-    left:     "50%",                                 // un solo origen — centro del podio
-    top:      "0%",                                  // parte superior de la sección
+    left:     "50%",
+    top:      "58%",
     fwX:      Math.round(Math.cos(angle) * dist),
-    fwY:      Math.round(Math.sin(angle) * dist),    // sin sesgo — explosión simétrica
+    fwY:      Math.round(Math.sin(angle) * dist),
     rotation: rotateDeg,
-    duration: `${0.8 + (i % 5) * 0.12}s`,
-    delay:    `${(i * 0.07) % 1.4}s`,               // stagger suave por partícula
+    duration: `${1.4 + (i % 4) * 0.2}s`,           // 1.4–2s para apreciar subida + explosión
+    delay:    `${(i * 0.09) % 1.8}s`,
     width:    i % 5 === 0 ? 3 : 2,
     height:   SPARK_LENGTHS[i % 6],
   };
