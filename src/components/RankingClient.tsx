@@ -16,14 +16,16 @@ const PODIUM_PB: Record<1 | 2 | 3, number> = { 1: 64, 2: 32, 3: 12 };
 
 // ── Confetti ──────────────────────────────────────────────────────────────────
 const CONFETTI_COLORS = ["#F59E0B", "#1E8E3E", "#60A5FA", "#F87171", "#A78BFA", "#34D399", "#FB923C"];
-const CONFETTI = Array.from({ length: 28 }, (_, i) => ({
+const CONFETTI_ANIM   = ["confettiA", "confettiB", "confettiC"] as const;
+const CONFETTI = Array.from({ length: 32 }, (_, i) => ({
   id: i,
   color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-  left: `${(i * 3.7 + 1) % 100}%`,
-  duration: `${2.4 + (i % 6) * 0.35}s`,
-  delay: `${(i * 0.22) % 3.5}s`,
-  size: [5, 7, 6, 8, 5][i % 5],
-  round: i % 3 !== 0,
+  left: `${(i * 3.2 + 1) % 100}%`,
+  duration: `${0.9 + (i % 5) * 0.2}s`,   // 0.9–1.7s — rápido
+  delay: `${(i * 0.18) % 2.5}s`,
+  size: [5, 8, 6, 7, 5, 9][i % 6],
+  round: i % 4 !== 0,
+  anim: CONFETTI_ANIM[i % 3],
 }));
 
 // ── Components ────────────────────────────────────────────────────────────────
@@ -82,7 +84,7 @@ function PodiumSlot({
   onClick: () => void;
 }) {
   const medalColor = MEDAL_COLOR[position - 1];
-  const avatarSize = position === 1 ? 84 : 64;
+  const avatarSize = position === 1 ? 84 : position === 2 ? 70 : 60;
   const pb = PODIUM_PB[position];
 
   if (!entry) return <div className="flex-1" />;
@@ -173,7 +175,7 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                 height: p.size,
                 backgroundColor: p.color,
                 borderRadius: p.round ? "50%" : "2px",
-                animation: `confettiFall ${p.duration} ${p.delay} ease-in infinite`,
+                animation: `${p.anim} ${p.duration} ${p.delay} ease-in infinite`,
               }}
             />
           ))}
