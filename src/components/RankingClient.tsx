@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { type RankingEntry } from "@/lib/ranking";
 import { type UserDetail, getUserDetail } from "@/app/(app)/ranking/actions";
 import { C, FS, FW } from "@/lib/tokens";
@@ -14,30 +14,6 @@ const MEDAL_COLOR = ["#F59E0B", "#94A3B8", "#92400E"] as const;
 // #1 (center): sube más → aparece más alto en el podio
 const PODIUM_PB: Record<1 | 2 | 3, number> = { 1: 64, 2: 32, 3: 12 };
 
-// ── Confetti ──────────────────────────────────────────────────────────────────
-const CONFETTI_COLORS = ["#F59E0B", "#1E8E3E", "#60A5FA", "#F87171", "#A78BFA", "#34D399", "#FB923C"];
-
-const SPARK_LENGTHS = [8, 12, 10, 14, 9, 13];
-
-const CONFETTI = Array.from({ length: 42 }, (_, i) => {
-  const angle     = (i / 42) * Math.PI * 2;
-  const dist      = 60 + (i % 5) * 20;              // 60–140px de explosión
-  const travelDeg = angle * (180 / Math.PI);
-  const rotateDeg = Math.round(travelDeg + 90);
-  return {
-    id:       i,
-    color:    CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-    left:     "50%",
-    top:      "58%",
-    fwX:      Math.round(Math.cos(angle) * dist),
-    fwY:      Math.round(Math.sin(angle) * dist),
-    rotation: rotateDeg,
-    duration: `${1.4 + (i % 4) * 0.2}s`,           // 1.4–2s para apreciar subida + explosión
-    delay:    `${(i * 0.09) % 1.8}s`,
-    width:    i % 5 === 0 ? 3 : 2,
-    height:   SPARK_LENGTHS[i % 6],
-  };
-});
 
 // ── Components ────────────────────────────────────────────────────────────────
 function CrownIcon({ color }: { color: string }) {
@@ -53,6 +29,7 @@ function PodiumAvatar({
 }: {
   name: string; image: string | null; size: number; medalColor: string;
 }) {
+  const [err, setErr] = useState(false);
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   const ring: React.CSSProperties = {
     boxShadow: `0 0 0 3px ${medalColor}, 0 0 0 5.5px white`,
@@ -62,9 +39,9 @@ function PodiumAvatar({
     objectFit: "cover" as const,
     flexShrink: 0,
   };
-  if (image) {
+  if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt={name} style={ring} />;
+    return <img src={image} alt="" style={ring} onError={() => setErr(true)} />;
   }
   return (
     <div className="bg-stone-200 flex items-center justify-center shrink-0" style={ring}>
@@ -74,10 +51,11 @@ function PodiumAvatar({
 }
 
 function ListAvatar({ name, image }: { name: string; image: string | null }) {
+  const [err, setErr] = useState(false);
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
-  if (image) {
+  if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt={name} className="w-11 h-11 rounded-full object-cover shrink-0" />;
+    return <img src={image} alt="" className="w-11 h-11 rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
   }
   return (
     <div className="w-11 h-11 rounded-full bg-stone-200 flex items-center justify-center shrink-0">
@@ -122,11 +100,11 @@ function PodiumSlot({
 
       <p
         className="text-center leading-tight px-1 w-full truncate mt-3"
-        style={{ fontSize: FS.caption, fontWeight: FW.extrabold, color: isCurrent ? C.primary : C.textPrimary }}
+        style={{ fontSize: FS.body, fontWeight: FW.extrabold, color: isCurrent ? C.primary : C.textPrimary }}
       >
         {entry.name.split(" ")[0]}
       </p>
-      <p style={{ fontSize: FS.caption, fontWeight: FW.semibold, color: C.textSecondary }}>
+      <p style={{ fontSize: FS.body, fontWeight: FW.semibold, color: C.textSecondary }}>
         {entry.totalPoints} pts
       </p>
     </button>
@@ -173,31 +151,10 @@ export default function RankingClient({ entries, currentUserId }: Props) {
       {/* ── Podio ── */}
       <div className="relative flex-[4] min-h-0 overflow-hidden bg-gradient-to-br from-stone-100 to-amber-50 flex flex-col px-5 pt-4 pb-0">
 
-        {/* Confetti */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {CONFETTI.map((p) => (
-            <div
-              key={p.id}
-              style={{
-                position: "absolute",
-                left: p.left,
-                top: p.top,
-                width: p.width,
-                height: p.height,
-                backgroundColor: p.color,
-                borderRadius: "1px",
-                "--fw-x": `${p.fwX}px`,
-                "--fw-y": `${p.fwY}px`,
-                "--fw-r": `${p.rotation}deg`,
-                animation: `firework ${p.duration} ${p.delay} ease-out infinite`,
-              } as React.CSSProperties}
-            />
-          ))}
-        </div>
-
-        <p className="relative z-10 shrink-0 mb-2" style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}>
-          Ranking
-        </p>
+        {/* Fireworks — 3 bursts */}
+        <div className="fw-burst" />
+        <div className="fw-burst fw-burst-2" />
+        <div className="fw-burst fw-burst-3" />
 
         {entries.length === 0 ? (
           <div className="flex-1 flex items-center justify-center">

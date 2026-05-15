@@ -12,6 +12,7 @@ interface Props {
 
 export default function EditProfileButton({ currentName, googleImage, currentImage, initials }: Props) {
   const [open, setOpen] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   return (
     <>
@@ -20,9 +21,9 @@ export default function EditProfileButton({ currentName, googleImage, currentIma
         className="relative shrink-0 w-[72px] h-[72px] cursor-pointer active:opacity-80 transition-opacity"
         title="Editar perfil"
       >
-        {currentImage ? (
+        {currentImage && !imgError ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={currentImage} alt={currentName} className="w-full h-full rounded-full object-cover ring-2 ring-stone-300" />
+          <img src={currentImage} alt={currentName} onError={() => setImgError(true)} className="w-full h-full rounded-full object-cover ring-2 ring-stone-300" />
         ) : (
           <div className="w-full h-full rounded-full bg-stone-500 flex items-center justify-center text-white text-2xl font-bold">
             {initials}

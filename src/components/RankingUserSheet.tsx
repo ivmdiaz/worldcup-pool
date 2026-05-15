@@ -5,15 +5,16 @@ import { createPortal } from "react-dom";
 import { type RankingEntry } from "@/lib/ranking";
 import { type UserDetail } from "@/app/(app)/ranking/actions";
 import { C, FS, FW, SEP, LABEL } from "@/lib/tokens";
-import { formatTime } from "@/lib/datetime";
+import { getDayKey, formatTabLabel } from "@/lib/datetime";
 
 const MEDAL = ["🥇", "🥈", "🥉"];
 
 function Avatar({ name, image, size = 56 }: { name: string; image: string | null; size?: number }) {
+  const [err, setErr] = useState(false);
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
-  if (image) {
+  if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover shrink-0" />;
+    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
   }
   return (
     <div
@@ -112,7 +113,7 @@ export default function RankingUserSheet({ entry, position, detail, loading, onC
                   {/* Match header */}
                   <div className="flex items-center justify-between">
                     <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>
-                      {p.group ? `Grupo ${p.group} · ` : ""}{formatTime(p.scheduledAt)}
+                      {formatTabLabel(getDayKey(p.scheduledAt))}
                     </span>
                     <PointsPill pts={p.points} />
                   </div>

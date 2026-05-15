@@ -6,20 +6,6 @@ import { formatTime } from "@/lib/datetime";
 import { getPredictionStats } from "@/lib/match";
 import { C, FS, SPACE } from "@/lib/tokens";
 
-// ─── Preview mock — set false to revert ──────────────────────────────────────
-const MOCK_MODE = false;
-const MOCK = {
-  totalPoints:    18,
-  exactCount:      4,
-  winCount:        6,
-  missCount:       2,
-  position:        3,
-  predictionsMade: 12,
-  pendingCount:    5,
-  nextKickoffStr: "20:00",
-};
-// ─────────────────────────────────────────────────────────────────────────────
-
 type CardBadge = {
   text: string;
   color: string;
@@ -50,19 +36,12 @@ export default async function HomePage() {
     }),
   ]);
 
-  const _totalPoints    = scoredPredictions.reduce((s, p) => s + (p.points ?? 0), 0);
-  const { exactCount: _exactCount, winCount: _winCount, missCount: _missCount } = getPredictionStats(scoredPredictions);
-  const _position       = allPoints.filter((u) => (u._sum.points ?? 0) > _totalPoints).length + 1;
-  const _nextKickoffStr = nextKickoff ? formatTime(nextKickoff.scheduledAt) : null;
-
-  const totalPoints    = MOCK_MODE ? MOCK.totalPoints    : _totalPoints;
-  const exactCount     = MOCK_MODE ? MOCK.exactCount     : _exactCount;
-  const winCount       = MOCK_MODE ? MOCK.winCount       : _winCount;
-  const missCount      = MOCK_MODE ? MOCK.missCount      : _missCount;
-  const position       = MOCK_MODE ? MOCK.position       : _position;
-  const nextKickoffStr = MOCK_MODE ? MOCK.nextKickoffStr : _nextKickoffStr;
-  const effectivePredictionsMade = MOCK_MODE ? MOCK.predictionsMade : predictionsMade;
-  const effectivePendingCount    = MOCK_MODE ? MOCK.pendingCount    : pendingCount;
+  const totalPoints    = scoredPredictions.reduce((s, p) => s + (p.points ?? 0), 0);
+  const { exactCount, winCount, missCount } = getPredictionStats(scoredPredictions);
+  const position       = allPoints.filter((u) => (u._sum.points ?? 0) > totalPoints).length + 1;
+  const nextKickoffStr = nextKickoff ? formatTime(nextKickoff.scheduledAt) : null;
+  const effectivePredictionsMade = predictionsMade;
+  const effectivePendingCount    = pendingCount;
 
   const role     = session!.user!.role;
   const name     = session!.user!.name ?? "Usuario";
@@ -81,27 +60,24 @@ export default async function HomePage() {
 
   const CARDS: Array<{
     href: string; label: string; image: string;
-    kbDuration: string; kbDelay: string; vtClass: string;
-    subtitle: string; badge: CardBadge | null;
+    vtClass: string; subtitle: string; badge: CardBadge | null;
   }> = [
     {
       href: "/matches", label: "Pronosticar", image: "/partidos.png",
-      kbDuration: "9s", kbDelay: "0s", vtClass: "vt-partidos",
-      subtitle: predictSubtitle,
+      vtClass: "vt-partidos", subtitle: predictSubtitle,
       badge: effectivePendingCount > 0
         ? { text: `${effectivePendingCount} pendientes`, color: C.pendingAmber, placement: "bottom" }
         : null,
     },
     {
       href: "/ranking", label: "Ranking", image: "/ranking.png",
-      kbDuration: "11s", kbDelay: "-4s", vtClass: "vt-ranking",
+      vtClass: "vt-ranking",
       subtitle: effectivePredictionsMade > 0 ? `Vas #${position} · ${totalPoints} pts` : "Acceso rápido",
       badge: null,
     },
     {
       href: "/tabla", label: "Tabla", image: "/tabla.png",
-      kbDuration: "13s", kbDelay: "-7s", vtClass: "vt-tabla",
-      subtitle: "Ver posiciones", badge: null,
+      vtClass: "vt-tabla", subtitle: "Ver posiciones", badge: null,
     },
   ];
 
@@ -181,7 +157,7 @@ export default async function HomePage() {
         className="grid gap-3 flex-[9] min-h-0 px-4 pt-3 pb-20 bg-gray-100 overflow-y-auto scrollbar-hide"
         style={{ gridTemplateRows: `repeat(${CARDS.length + (role === "ADMIN" ? 1 : 0)}, minmax(130px, 1fr))` }}
       >
-        {CARDS.map(({ href, label, image: img, kbDuration, kbDelay, vtClass, subtitle, badge }, i) => (
+        {CARDS.map(({ href, label, image: img, vtClass, subtitle, badge }, i) => (
           <NavCardLink
             key={href}
             href={href}
@@ -189,12 +165,8 @@ export default async function HomePage() {
             style={{ animationDelay: `${120 + i * 80}ms` }}
           >
             <div
-              className="card-bg absolute inset-0 bg-cover bg-center rounded-2xl"
-              style={{
-                backgroundImage: `url('${img}')`,
-                "--kb-duration": kbDuration,
-                "--kb-delay": kbDelay,
-              } as React.CSSProperties}
+              className="absolute inset-0 bg-cover bg-center rounded-2xl"
+              style={{ backgroundImage: `url('${img}')` }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent rounded-2xl" />
 
@@ -253,12 +225,8 @@ export default async function HomePage() {
             style={{ animationDelay: `${120 + CARDS.length * 80}ms` }}
           >
             <div
-              className="card-bg absolute inset-0 bg-cover bg-center rounded-2xl"
-              style={{
-                backgroundImage: "url('/admin.png')",
-                "--kb-duration": "11s",
-                "--kb-delay": "-2s",
-              } as React.CSSProperties}
+              className="absolute inset-0 bg-cover bg-center rounded-2xl"
+              style={{ backgroundImage: "url('/admin.png')" }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent rounded-2xl" />
             <div className="relative z-10 h-full flex flex-col justify-end px-4 pb-4">

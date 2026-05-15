@@ -64,15 +64,109 @@ button, a {
   overflow: hidden;
 }
 
-/* ── Firework — sube desde abajo, explota en el apex ── */
-@keyframes firework {
-  /* Fase 1 — cohete sube: empieza oculto abajo del contenedor */
-  0%   { transform: translateY(240px) rotate(0deg) scaleY(3);   opacity: 0; }
+/* ── Firework burst — origen único central, cada variante vuela a su destino ── */
+/* Técnica: width crece de 0.5vmin a --fw-fs, los dots radiales se separan */
+/* --fw-tx: offset horizontal del destino (vmin). --fw-ty: altura del destino (vmin) */
+/* Animación principal — cohete sube, explota rápido, se mantiene visible */
+@keyframes fw-burst {
+  0%   { transform: translate(-50%, var(--fw-iy)); width: var(--fw-is); opacity: 0; }
   8%   { opacity: 1; }
-  /* Apex — llega al punto de explosión */
-  30%  { transform: translateY(0)    rotate(0deg) scaleY(1.2);  opacity: 1; }
-  /* Fase 2 — explosión radial: cada línea vuela en su dirección */
-  100% { transform: translate(var(--fw-x), var(--fw-y)) rotate(var(--fw-r)) scaleY(0.1); opacity: 0; }
+  50%  { transform: translate(calc(-50% + var(--fw-tx)), var(--fw-ty)); width: 0.5vmin; opacity: 1; }
+  62%  { transform: translate(calc(-50% + var(--fw-tx)), var(--fw-ty)); width: var(--fw-fs); opacity: 0.9; }
+  76%  { transform: translate(calc(-50% + var(--fw-tx)), var(--fw-ty)); width: calc(var(--fw-fs) + 14vmin); opacity: 0; }
+  100% { transform: translate(calc(-50% + var(--fw-tx)), var(--fw-ty)); width: calc(var(--fw-fs) + 14vmin); opacity: 0; }
+}
+
+/* Animación pseudo — solo expande en su posición (sin lanzamiento) */
+@keyframes fw-burst-pseudo {
+  0%   { width: var(--fw-is); opacity: 0; }
+  51%  { width: 0.5vmin; opacity: 0; }
+  53%  { width: 0.5vmin; opacity: 1; }
+  65%  { width: var(--fw-fs); opacity: 0.9; }
+  76%  { width: calc(var(--fw-fs) + 14vmin); opacity: 0; }
+  100% { width: calc(var(--fw-fs) + 14vmin); opacity: 0; }
+}
+
+.fw-burst,
+.fw-burst::before,
+.fw-burst::after {
+  --fw-is: 0.5vmin;
+  --fw-fs: 40vmin;
+  --fw-p:  0.9vmin;
+  --fw-c1: #F59E0B; --fw-c2: #FCD34D; --fw-c3: #FB923C;
+  --fw-c4: #F97316; --fw-c5: #FBBF24; --fw-c6: #FEF08A;
+  --fw-tx: 0px;
+  --fw-ty: -45vmin;
+  --fw-iy: 60vmin;
+  content: "";
+  animation: fw-burst 9s infinite;
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  /* destino = centro + offset horizontal + altura */
+  transform: translate(calc(-50% + var(--fw-tx)), var(--fw-ty));
+  width: var(--fw-is);
+  aspect-ratio: 1;
+  background:
+    radial-gradient(circle, var(--fw-c1) var(--fw-p), #0000 0) 50%  0%,
+    radial-gradient(circle, var(--fw-c2) var(--fw-p), #0000 0) 100% 50%,
+    radial-gradient(circle, var(--fw-c3) var(--fw-p), #0000 0) 50%  100%,
+    radial-gradient(circle, var(--fw-c4) var(--fw-p), #0000 0) 0%   50%,
+    radial-gradient(circle, var(--fw-c5) var(--fw-p), #0000 0) 80%  90%,
+    radial-gradient(circle, var(--fw-c6) var(--fw-p), #0000 0) 95%  90%,
+    radial-gradient(circle, var(--fw-c1) var(--fw-p), #0000 0) 90%  70%,
+    radial-gradient(circle, var(--fw-c2) var(--fw-p), #0000 0) 100% 60%,
+    radial-gradient(circle, var(--fw-c3) var(--fw-p), #0000 0) 55%  80%,
+    radial-gradient(circle, var(--fw-c4) var(--fw-p), #0000 0) 70%  77%,
+    radial-gradient(circle, var(--fw-c5) var(--fw-p), #0000 0) 22%  90%,
+    radial-gradient(circle, var(--fw-c6) var(--fw-p), #0000 0) 45%  90%,
+    radial-gradient(circle, var(--fw-c1) var(--fw-p), #0000 0) 33%  70%,
+    radial-gradient(circle, var(--fw-c2) var(--fw-p), #0000 0) 10%  60%,
+    radial-gradient(circle, var(--fw-c3) var(--fw-p), #0000 0) 31%  80%,
+    radial-gradient(circle, var(--fw-c4) var(--fw-p), #0000 0) 28%  77%,
+    radial-gradient(circle, var(--fw-c5) var(--fw-p), #0000 0) 13%  72%,
+    radial-gradient(circle, var(--fw-c6) var(--fw-p), #0000 0) 80%  10%,
+    radial-gradient(circle, var(--fw-c1) var(--fw-p), #0000 0) 95%  14%,
+    radial-gradient(circle, var(--fw-c2) var(--fw-p), #0000 0) 90%  23%,
+    radial-gradient(circle, var(--fw-c3) var(--fw-p), #0000 0) 100% 43%,
+    radial-gradient(circle, var(--fw-c4) var(--fw-p), #0000 0) 85%  27%,
+    radial-gradient(circle, var(--fw-c5) var(--fw-p), #0000 0) 77%  37%,
+    radial-gradient(circle, var(--fw-c6) var(--fw-p), #0000 0) 60%  7%,
+    radial-gradient(circle, var(--fw-c1) var(--fw-p), #0000 0) 22%  14%,
+    radial-gradient(circle, var(--fw-c2) var(--fw-p), #0000 0) 45%  20%,
+    radial-gradient(circle, var(--fw-c3) var(--fw-p), #0000 0) 33%  34%,
+    radial-gradient(circle, var(--fw-c4) var(--fw-p), #0000 0) 10%  29%,
+    radial-gradient(circle, var(--fw-c5) var(--fw-p), #0000 0) 31%  37%,
+    radial-gradient(circle, var(--fw-c6) var(--fw-p), #0000 0) 28%  7%,
+    radial-gradient(circle, var(--fw-c1) var(--fw-p), #0000 0) 13%  42%;
+  background-size: var(--fw-is) var(--fw-is);
+  background-repeat: no-repeat;
+}
+
+/* Pseudo-elements — posición fija en destino, solo expanden */
+.fw-burst::before {
+  animation-name: fw-burst-pseudo;
+  transform: translate(calc(-50% + var(--fw-tx)), var(--fw-ty)) rotate(40deg) scale(1.3) rotateY(40deg);
+}
+.fw-burst::after {
+  animation-name: fw-burst-pseudo;
+  transform: translate(calc(-50% + var(--fw-tx)), var(--fw-ty)) rotate(170deg) scale(1.15) rotateY(-30deg);
+}
+
+/* Variante 2 — izquierda, verde */
+.fw-burst-2, .fw-burst-2::before, .fw-burst-2::after {
+  --fw-c1: #1E8E3E; --fw-c2: #34D399; --fw-c3: #10B981;
+  --fw-c4: #6EE7B7; --fw-c5: #A7F3D0; --fw-c6: #BBF7D0;
+  --fw-fs: 34vmin; --fw-tx: -20vmin; --fw-ty: -38vmin;
+  animation-delay: -1.3s;
+}
+
+/* Variante 3 — derecha, rojo/rosa */
+.fw-burst-3, .fw-burst-3::before, .fw-burst-3::after {
+  --fw-c1: #EF4444; --fw-c2: #F87171; --fw-c3: #FB7185;
+  --fw-c4: #FCA5A5; --fw-c5: #FDA4AF; --fw-c6: #F472B6;
+  --fw-fs: 34vmin; --fw-tx: 20vmin; --fw-ty: -38vmin;
+  animation-delay: -2.6s;
 }
 
 /* ── View Transitions — shared element names ── */
