@@ -7,9 +7,9 @@ import { C, FS, FW } from "@/lib/tokens";
 import { haptic } from "@/lib/haptic";
 import RankingUserSheet from "@/components/RankingUserSheet";
 
-const MEDAL_COLOR = ["#F59E0B", "#94A3B8", "#92400E"] as const;
-const PEDESTAL_H  = [90, 65, 45] as const;
-const FLOAT_DELAY = [0, 400, 800] as const; // stagger por posición
+const MEDAL_COLOR  = ["#F59E0B", "#94A3B8", "#92400E"] as const; // gold, silver, bronze
+const FLOAT_DELAY  = [0, 400, 800] as const;
+const TOP_OFFSET   = [0, 32, 48] as const; // px — pushes #2 and #3 down
 
 function CrownIcon({ color }: { color: string }) {
   return (
@@ -19,20 +19,36 @@ function CrownIcon({ color }: { color: string }) {
   );
 }
 
-function Avatar({ name, image, size = 48 }: { name: string; image: string | null; size?: number }) {
+function PodiumAvatar({
+  name, image, size, medalColor,
+}: {
+  name: string; image: string | null; size: number; medalColor: string;
+}) {
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  const ring = { boxShadow: `0 0 0 3px ${medalColor}, 0 0 0 5px white` };
   if (image) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover ring-2 ring-stone-300 shrink-0" />;
+    return <img src={image} alt={name} style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", ...ring }} />;
   }
   return (
     <div
-      className="rounded-full bg-stone-300 flex items-center justify-center ring-2 ring-white shrink-0"
-      style={{ width: size, height: size }}
+      className="rounded-full bg-stone-200 flex items-center justify-center shrink-0"
+      style={{ width: size, height: size, ...ring }}
     >
-      <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>
-        {initials}
-      </span>
+      <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>{initials}</span>
+    </div>
+  );
+}
+
+function ListAvatar({ name, image, size = 44 }: { name: string; image: string | null; size?: number }) {
+  const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  if (image) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover shrink-0" />;
+  }
+  return (
+    <div className="rounded-full bg-stone-200 flex items-center justify-center shrink-0" style={{ width: size, height: size }}>
+      <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>{initials}</span>
     </div>
   );
 }
@@ -45,39 +61,41 @@ function PodiumSlot({
   isCurrent: boolean;
   onClick: () => void;
 }) {
-  const pedestalH = PEDESTAL_H[position - 1];
-  const medalColor = MEDAL_COLOR[position - 1];
-  const avatarSize = position === 1 ? 60 : 46;
+  const medalColor  = MEDAL_COLOR[position - 1];
+  const floatDelay  = FLOAT_DELAY[position - 1];
+  const topOffset   = TOP_OFFSET[position - 1];
+  const avatarSize  = position === 1 ? 64 : 52;
 
-  const floatDelay = FLOAT_DELAY[position - 1];
-
-  if (!entry) {
-    return (
-      <div className="flex-1 flex flex-col items-center justify-end">
-        <div className="rounded-t-xl w-full" style={{ height: pedestalH, backgroundColor: `${medalColor}30` }} />
-      </div>
-    );
-  }
+  if (!entry) return <div className="flex-1" />;
 
   return (
     <button
       onClick={onClick}
-      className="flex-1 flex flex-col items-center gap-0 cursor-pointer active:opacity-80 transition-opacity"
+      className="flex-1 flex flex-col items-center cursor-pointer active:opacity-75 transition-opacity"
+      style={{ paddingTop: topOffset }}
     >
-      {/* Corona + avatar — solo esta parte flota */}
+      {/* Crown + avatar — solo esto flota */}
       <div
         className="flex flex-col items-center animate-podium-float"
         style={{ animationDelay: `${floatDelay}ms` }}
       >
         <CrownIcon color={medalColor} />
-        <div className="-mt-0.5">
-          <Avatar name={entry.name} image={entry.image} size={avatarSize} />
+        {/* Avatar con ring de medalla y badge de posición */}
+        <div className="relative -mt-0.5">
+          <PodiumAvatar name={entry.name} image={entry.image} size={avatarSize} medalColor={medalColor} />
+          {/* Badge numérico pegado al borde inferior */}
+          <div
+            className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full flex items-center justify-center"
+            style={{ backgroundColor: medalColor }}
+          >
+            <span className="text-white font-extrabold" style={{ fontSize: "10px" }}>{position}</span>
+          </div>
         </div>
       </div>
 
-      {/* Name */}
+      {/* Nombre */}
       <p
-        className="text-center leading-tight px-1 w-full truncate"
+        className="text-center leading-tight px-1 w-full truncate mt-3"
         style={{
           fontSize: FS.micro, fontWeight: FW.extrabold,
           color: isCurrent ? C.primary : C.textPrimary,
@@ -86,16 +104,10 @@ function PodiumSlot({
         {entry.name.split(" ")[0]}
       </p>
 
-      {/* Points */}
+      {/* Puntos */}
       <p style={{ fontSize: FS.micro, fontWeight: FW.semibold, color: C.textSecondary }}>
         {entry.totalPoints} pts
       </p>
-
-      {/* Pedestal — sin borde, relleno muy sutil */}
-      <div
-        className="rounded-t-lg w-full mt-1.5"
-        style={{ height: pedestalH, backgroundColor: `${medalColor}20` }}
-      />
     </button>
   );
 }
@@ -137,11 +149,8 @@ export default function RankingClient({ entries, currentUserId }: Props) {
     <div className="flex flex-col animate-entrance" style={{ height: "100dvh" }}>
 
       {/* ── Podio ── */}
-      <div className="flex-[4] min-h-0 overflow-hidden bg-gradient-to-br from-stone-100 to-amber-50 flex flex-col px-5 pt-4 pb-0">
-        <p
-          className="shrink-0 mb-4"
-          style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}
-        >
+      <div className="flex-[4] min-h-0 overflow-hidden bg-gradient-to-br from-stone-100 to-amber-50 flex flex-col px-5 pt-4 pb-2">
+        <p className="shrink-0 mb-4" style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}>
           Ranking
         </p>
 
@@ -150,31 +159,31 @@ export default function RankingClient({ entries, currentUserId }: Props) {
             <p style={{ fontSize: FS.body, color: C.textSecondary }}>Aún sin participantes.</p>
           </div>
         ) : (
-          <div className="flex-1 flex items-end justify-center gap-3 min-h-0">
-            {([2, 1, 3] as const).map((pos) => {
-              const entry = entries[pos - 1] ?? null;
-              return (
-                <PodiumSlot
-                  key={pos}
-                  entry={entry}
-                  position={pos}
-                  isCurrent={entry?.id === currentUserId}
-                  onClick={() => entry && handleSelect(entry, pos)}
-                />
-              );
-            })}
+          <div className="flex-1 flex items-end justify-center gap-2 min-h-0 pb-4">
+            {([2, 1, 3] as const).map((pos) => (
+              <PodiumSlot
+                key={pos}
+                entry={entries[pos - 1] ?? null}
+                position={pos}
+                isCurrent={entries[pos - 1]?.id === currentUserId}
+                onClick={() => {
+                  const e = entries[pos - 1];
+                  if (e) handleSelect(e, pos);
+                }}
+              />
+            ))}
           </div>
         )}
       </div>
 
       {/* ── Lista (4th+) ── */}
-      <div className="flex-[6] min-h-0 overflow-y-auto scrollbar-hide px-4 pt-3 pb-20 bg-gray-100">
-        {rest.length === 0 && entries.length >= 3 ? (
+      <div className="flex-[6] min-h-0 overflow-y-auto scrollbar-hide bg-white px-5 pt-2 pb-20">
+        {rest.length === 0 ? (
           <p className="text-center py-6" style={{ fontSize: FS.body, color: C.textSecondary }}>
             Solo hay {entries.length} participante{entries.length !== 1 ? "s" : ""}.
           </p>
         ) : (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
             {rest.map((entry, i) => {
               const position = i + 4;
               const isCurrent = entry.id === currentUserId;
@@ -182,22 +191,16 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                 <button
                   key={entry.id}
                   onClick={() => handleSelect(entry, position)}
-                  className="w-full text-left cursor-pointer active:opacity-80 transition-opacity"
+                  className="w-full text-left cursor-pointer active:opacity-70 transition-opacity"
                 >
-                  <div
-                    className="flex items-center gap-3 rounded-2xl px-4 py-3"
-                    style={{
-                      border: isCurrent ? `1.5px solid ${C.primary}` : `1px solid ${C.divider}`,
-                      backgroundColor: isCurrent ? C.successBg : C.surface,
-                    }}
-                  >
+                  <div className="flex items-center gap-3 py-3.5">
                     <span
-                      className="shrink-0 tabular-nums w-6 text-center"
+                      className="shrink-0 w-5 text-center tabular-nums"
                       style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}
                     >
                       {position}
                     </span>
-                    <Avatar name={entry.name} image={entry.image} size={36} />
+                    <ListAvatar name={entry.name} image={entry.image} size={44} />
                     <p
                       className="flex-1 truncate"
                       style={{
@@ -206,7 +209,9 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                       }}
                     >
                       {entry.name}
-                      {isCurrent && <span style={{ fontSize: FS.micro, fontWeight: FW.medium, color: C.primary }}> · tú</span>}
+                      {isCurrent && (
+                        <span style={{ fontSize: FS.micro, fontWeight: FW.medium, color: C.primary }}> · tú</span>
+                      )}
                     </p>
                     <p
                       className="shrink-0 tabular-nums"
@@ -215,6 +220,10 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                       {entry.totalPoints} pts
                     </p>
                   </div>
+                  {/* Divider — excepto el último */}
+                  {i < rest.length - 1 && (
+                    <div className="ml-[60px] border-t" style={{ borderColor: C.divider }} />
+                  )}
                 </button>
               );
             })}
