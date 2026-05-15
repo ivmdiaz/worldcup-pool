@@ -17,8 +17,13 @@ const PODIUM_PB: Record<1 | 2 | 3, number> = { 1: 64, 2: 32, 3: 12 };
 // ── Confetti ──────────────────────────────────────────────────────────────────
 const CONFETTI_COLORS = ["#F59E0B", "#1E8E3E", "#60A5FA", "#F87171", "#A78BFA", "#34D399", "#FB923C"];
 
-// 3 orígenes de disparo (% del contenedor)
-const ORIGINS = [{ x: 28, y: 82 }, { x: 50, y: 78 }, { x: 72, y: 82 }];
+// Orígenes detrás de cada avatar — orden render: [#2 left, #1 center, #3 right]
+// x: centros de las 3 columnas flex (con px-5). y: altura aprox. del avatar de cada posición
+const ORIGINS = [
+  { x: 20, y: 80 },  // detrás de #2 (izquierda, pb=32 → avatar más abajo)
+  { x: 50, y: 68 },  // detrás de #1 (centro,   pb=64 → avatar más arriba)
+  { x: 80, y: 86 },  // detrás de #3 (derecha,  pb=12 → avatar más abajo aún)
+];
 
 const CONFETTI = Array.from({ length: 39 }, (_, i) => {
   const angle = (i / 39) * Math.PI * 2;                  // 360° completos
