@@ -1,0 +1,35 @@
+src/app/(app)/admin/actions.ts
+  s_b255837a75961a::t_af0d02e718e897 37-50
+src/lib/countrycodes.ts
+  s_b255837a75961a::t_838dd65eefbfe3 20-21
+src/components/AdminResultModal.tsx
+  s_b255837a75961a::t_21b0fba75fd297 6
+  s_b255837a75961a::t_dd8778320e34ac 134
+  s_b255837a75961a::t_a728c390b2a86b 162-164,175-176,179-211,213-217
+  s_b255837a75961a::t_67820705b6b4e2 137-146
+  s_b255837a75961a::t_efdac41bc72865 91-93
+  s_b255837a75961a::t_616acfabaf0493 11
+  s_b255837a75961a::t_d48db9a1c26c70 31-77
+  s_b255837a75961a::t_94136bc071823b 224
+  s_b255837a75961a::t_ba9d9ba7534a75 165-174
+  s_b255837a75961a::t_062f258c17d4d1 228
+  s_b255837a75961a::t_93adf6ae0e483c 78-80,85-86,98-106
+src/app/(app)/matches/page.tsx
+  s_b255837a75961a::t_ac07aeca9d3f4d 13-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "278096cddc7128c4e70553f9dfd30a8419c1862f",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
