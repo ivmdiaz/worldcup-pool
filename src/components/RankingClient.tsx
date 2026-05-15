@@ -65,13 +65,10 @@ function PodiumSlot({
       className="flex-1 flex flex-col items-center gap-0 cursor-pointer active:opacity-80 transition-opacity animate-podium-float"
       style={{ animationDelay: `${floatDelay}ms` }}
     >
-      {/* Avatar con corona overlaid */}
-      <div className="relative mb-1">
+      {/* Corona encima del avatar, separada pero pegada */}
+      <CrownIcon color={medalColor} />
+      <div className="-mt-0.5">
         <Avatar name={entry.name} image={entry.image} size={avatarSize} />
-        {/* Corona centrada encima del avatar */}
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <CrownIcon color={medalColor} />
-        </div>
       </div>
 
       {/* Name */}
@@ -90,10 +87,10 @@ function PodiumSlot({
         {entry.totalPoints} pts
       </p>
 
-      {/* Pedestal */}
+      {/* Pedestal — sin borde, relleno muy sutil */}
       <div
-        className="rounded-t-xl w-full mt-1"
-        style={{ height: pedestalH, backgroundColor: `${medalColor}50`, border: `2px solid ${medalColor}80` }}
+        className="rounded-t-lg w-full mt-1.5"
+        style={{ height: pedestalH, backgroundColor: `${medalColor}20` }}
       />
     </button>
   );
@@ -138,7 +135,7 @@ export default function RankingClient({ entries, currentUserId }: Props) {
       {/* ── Podio ── */}
       <div className="flex-[4] min-h-0 overflow-hidden bg-gradient-to-br from-stone-100 to-amber-50 flex flex-col px-5 pt-4 pb-0">
         <p
-          className="shrink-0 mb-2"
+          className="shrink-0 mb-4"
           style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}
         >
           Ranking
