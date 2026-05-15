@@ -47,7 +47,8 @@ function PodiumAvatar({
     borderRadius: "50%",
     width: size,
     height: size,
-    objectFit: "cover" as const,
+    objectFit: image?.startsWith("/mascotas/") ? ("contain" as const) : ("cover" as const),
+    backgroundColor: image?.startsWith("/mascotas/") ? "#F9FAFB" : undefined,
     flexShrink: 0,
   };
   if (image && !err) {
@@ -70,7 +71,8 @@ function ListAvatar({ name, image }: { name: string; image: string | null }) {
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img ref={ref} src={image} alt="" className="w-11 h-11 rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
+    const isMascot = image.startsWith("/mascotas/");
+    return <img ref={ref} src={image} alt="" className={`w-11 h-11 rounded-full shrink-0 ${isMascot ? "object-contain bg-gray-50" : "object-cover"}`} onError={() => setErr(true)} />;
   }
   return (
     <div className="w-11 h-11 rounded-full bg-stone-200 flex items-center justify-center shrink-0">

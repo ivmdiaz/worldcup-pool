@@ -91,7 +91,7 @@ export default async function HomePage() {
           <div className="flex-1 flex items-center gap-4 min-h-0">
             <EditProfileButton
               currentName={name}
-              googleImage={session!.user!.image}
+              googleImage={session!.user!.googleImage}
               currentImage={image}
               initials={initials}
             />

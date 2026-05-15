@@ -18,7 +18,8 @@ function Avatar({ name, image, size = 56 }: { name: string; image: string | null
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img ref={ref} src={image} alt="" style={{ width: size, height: size }} className="rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
+    const isMascot = image.startsWith("/mascotas/");
+    return <img ref={ref} src={image} alt="" style={{ width: size, height: size, backgroundColor: isMascot ? "#F9FAFB" : undefined }} className={`rounded-full shrink-0 ${isMascot ? "object-contain" : "object-cover"}`} onError={() => setErr(true)} />;
   }
   return (
     <div

@@ -13,9 +13,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "google" && profile?.picture && user.id) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { googleImage: profile.picture as string },
+        });
+      }
+      return true;
+    },
     async session({ session, user }) {
       session.user.id = user.id;
       session.user.role = user.role;
+      session.user.googleImage = user.googleImage ?? null;
       return session;
     },
   },

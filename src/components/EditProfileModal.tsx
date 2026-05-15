@@ -8,10 +8,58 @@ import { C, FS, FW } from "@/lib/tokens";
 
 // Agregá las mascotas acá cuando estén disponibles en /public/mascotas/
 const MASCOTAS: string[] = [
-  // "/mascotas/mascota-1.png",
-  // "/mascotas/mascota-2.png",
-  // "/mascotas/mascota-3.png",
+  "/mascotas/1966.jpg",
+  "/mascotas/1974.jpg",
+  "/mascotas/1978.jpg",
+  "/mascotas/1982.jpg",
+  "/mascotas/1986.jpg",
+  "/mascotas/1990.jpg",
+  "/mascotas/1994.jpg",
+  "/mascotas/1998.jpg",
+  "/mascotas/2002.jpg",
+  "/mascotas/2006.jpg",
+  "/mascotas/2010.jpg",
+  "/mascotas/2014.jpg",
+  "/mascotas/2018.jpg",
+  "/mascotas/2022.jpg",
+  "/mascotas/2026.jpg",
 ];
+
+function AvatarOption({ src, label, selected, initials, onSelect }: {
+  src: string; label: string; selected: boolean; initials: string; onSelect: () => void;
+}) {
+  const [err, setErr] = useState(false);
+  const isMascot = src.startsWith("/mascotas/");
+  return (
+    <button
+      onClick={onSelect}
+      className={`relative aspect-square rounded-xl overflow-hidden transition-all cursor-pointer bg-gray-100 ${selected ? "scale-105 shadow-md" : ""}`}
+      style={{ border: selected ? `2px solid ${C.primary}` : "2px solid transparent" }}
+      title={label}
+    >
+      {err ? (
+        <div className="w-full h-full flex items-center justify-center bg-stone-200">
+          <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>{initials}</span>
+        </div>
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt={label}
+          className={`w-full h-full ${isMascot ? "object-contain p-1.5" : "object-cover"}`}
+          onError={() => setErr(true)}
+        />
+      )}
+      {selected && (
+        <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: "rgba(30,142,62,0.15)" }}>
+          <svg className="w-5 h-5 drop-shadow" fill="white" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+          </svg>
+        </div>
+      )}
+    </button>
+  );
+}
 
 interface Props {
   currentName: string;
@@ -37,7 +85,7 @@ export default function EditProfileModal({ currentName, googleImage, currentImag
   }
 
   const avatarOptions = [
-    ...(googleImage ? [{ src: googleImage, label: "Foto de Google" }] : []),
+    ...(googleImage && !MASCOTAS.includes(googleImage) ? [{ src: googleImage, label: "Foto de Google" }] : []),
     ...MASCOTAS.map((src, i) => ({ src, label: `Mascota ${i + 1}` })),
   ];
 
@@ -99,27 +147,14 @@ export default function EditProfileModal({ currentName, googleImage, currentImag
             ) : (
               <div className="grid grid-cols-4 gap-3">
                 {avatarOptions.map(({ src, label }) => (
-                  <button
+                  <AvatarOption
                     key={src}
-                    onClick={() => setSelectedImage(src)}
-                    className={`relative aspect-square rounded-xl overflow-hidden transition-all cursor-pointer ${
-                      selectedImage === src ? "scale-105 shadow-md" : ""
-                    }`}
-                    style={{
-                      border: selectedImage === src ? `2px solid ${C.primary}` : "2px solid transparent",
-                    }}
-                    title={label}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt={label} className="w-full h-full object-cover" />
-                    {selectedImage === src && (
-                      <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: "rgba(30,142,62,0.15)" }}>
-                        <svg className="w-5 h-5 drop-shadow" fill="white" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                    )}
-                  </button>
+                    src={src}
+                    label={label}
+                    selected={selectedImage === src}
+                    initials={currentName.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
+                    onSelect={() => setSelectedImage(src)}
+                  />
                 ))}
               </div>
             )}

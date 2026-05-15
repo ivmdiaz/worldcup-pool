@@ -23,7 +23,7 @@ export default function EditProfileButton({ currentName, googleImage, currentIma
       >
         {currentImage && !imgError ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={currentImage} alt={currentName} onError={() => setImgError(true)} className="w-full h-full rounded-full object-cover ring-2 ring-stone-300" />
+          <img src={currentImage} alt={currentName} onError={() => setImgError(true)} className={`w-full h-full rounded-full ring-2 ring-stone-300 ${currentImage.startsWith("/mascotas/") ? "object-contain bg-gray-50" : "object-cover"}`} />
         ) : (
           <div className="w-full h-full rounded-full bg-stone-500 flex items-center justify-center text-white text-2xl font-bold">
             {initials}
