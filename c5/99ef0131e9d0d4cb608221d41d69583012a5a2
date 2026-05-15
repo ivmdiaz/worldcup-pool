@@ -1,0 +1,23 @@
+src/components/EditProfileButton.tsx
+  s_b255837a75961a::t_865992767f45d3 33-34
+  s_b255837a75961a::t_5b9fd531878897 32
+  s_b255837a75961a::t_faaf434da0a3d2 21
+src/app/(app)/home/page.tsx
+  s_b255837a75961a::t_3b2771b9a5aaba 99
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "c599ef0131e9d0d4cb608221d41d69583012a5a2",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
