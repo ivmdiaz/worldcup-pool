@@ -1,0 +1,24 @@
+src/lib/countrycodes.ts
+  s_b255837a75961a::t_117a39fcb7a26f 5
+  s_b255837a75961a::t_ab749f0a48bfd0 3
+  s_b255837a75961a::t_9845e17e7b12ba 17
+src/app/(app)/admin/page.tsx
+  s_b255837a75961a::t_5f2d10a9b454bb 78
+  s_b255837a75961a::t_07082bd10fe216 40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "ac500ddbf7cb014b90eff7afe82032fce32751c5",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
