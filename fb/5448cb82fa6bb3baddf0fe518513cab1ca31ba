@@ -1,0 +1,41 @@
+src/types/next-auth.d.ts
+  s_b255837a75961a::t_ebbebf0bf9897b 8,14
+src/components/EditProfileModal.tsx
+  s_b255837a75961a::t_d84880af4f8f3d 15-25
+  s_b255837a75961a::t_39d5b9d79c2ee9 88
+  s_b255837a75961a::t_1debddb234ae83 11-14
+  s_b255837a75961a::t_2d1fdb9ce1893f 28-63
+  s_b255837a75961a::t_95ee45e2310957 150,152-157
+src/components/RankingUserSheet.tsx
+  s_b255837a75961a::t_868e2e061805be 21-22
+src/components/EditProfileButton.tsx
+  s_b255837a75961a::t_2cfb7fb7c00909 26
+src/lib/auth.ts
+  s_b255837a75961a::t_872015aadee2ee 16-24,28
+src/components/RankingClient.tsx
+  s_b255837a75961a::t_b6e1b356d2ecd3 74-75
+  s_b255837a75961a::t_5235b782ac2f6c 50
+  s_b255837a75961a::t_6f173bcec40970 51
+prisma/schema.prisma
+  s_b255837a75961a::t_e6e18eb239d237 54
+prisma/migrations/20260515045535_add_google_image_to_user/migration.sql
+  s_b255837a75961a::t_5f165296de6eba 1-2
+src/app/(app)/home/page.tsx
+  s_b255837a75961a::t_5b533aac9e7646 94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "fb5448cb82fa6bb3baddf0fe518513cab1ca31ba",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
