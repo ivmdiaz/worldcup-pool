@@ -72,10 +72,10 @@ function ListAvatar({ name, image }: { name: string; image: string | null }) {
   if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
     const isMascot = image.startsWith("/mascotas/");
-    return <img ref={ref} src={image} alt="" className={`w-11 h-11 rounded-full shrink-0 ${isMascot ? "object-contain bg-gray-50" : "object-cover"}`} onError={() => setErr(true)} />;
+    return <img ref={ref} src={image} alt="" className={`w-11 h-11 rounded-full shrink-0 ${isMascot ? "object-contain" : "object-cover"}`} style={{ boxShadow: `0 0 0 2px ${C.primary}`, backgroundColor: isMascot ? "#F9FAFB" : undefined }} onError={() => setErr(true)} />;
   }
   return (
-    <div className="w-11 h-11 rounded-full bg-stone-200 flex items-center justify-center shrink-0">
+    <div className="w-11 h-11 rounded-full bg-stone-200 flex items-center justify-center shrink-0" style={{ boxShadow: `0 0 0 2px ${C.primary}` }}>
       <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>{initials}</span>
     </div>
   );
@@ -197,13 +197,13 @@ export default function RankingClient({ entries, currentUserId }: Props) {
       </div>
 
       {/* ── Lista (4th+) ── */}
-      <div className="flex-[6] min-h-0 overflow-y-auto scrollbar-hide bg-white px-5 pt-2 pb-20">
+      <div className="flex-[6] min-h-0 overflow-y-auto scrollbar-hide bg-gray-100 px-3 pt-2 pb-20">
         {rest.length === 0 ? (
           <p className="text-center py-6" style={{ fontSize: FS.body, color: C.textSecondary }}>
             Solo hay {entries.length} participante{entries.length !== 1 ? "s" : ""}.
           </p>
         ) : (
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-2">
             {rest.map((entry, i) => {
               const position = i + 4;
               const isCurrent = entry.id === currentUserId;
@@ -211,9 +211,10 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                 <button
                   key={entry.id}
                   onClick={() => handleSelect(entry, position)}
-                  className="w-full text-left cursor-pointer active:opacity-70 transition-opacity"
+                  className="w-full text-left cursor-pointer active:opacity-70 transition-opacity bg-white rounded-2xl px-3 shadow-sm"
+                  style={{ border: `1px solid ${C.divider}` }}
                 >
-                  <div className="flex items-center gap-3 py-3.5">
+                  <div className="flex items-center gap-3 py-3">
                     <span
                       className="shrink-0 w-5 text-center tabular-nums"
                       style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}
@@ -234,9 +235,6 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                       {entry.totalPoints} pts
                     </p>
                   </div>
-                  {i < rest.length - 1 && (
-                    <div className="ml-[60px] border-t" style={{ borderColor: C.divider }} />
-                  )}
                 </button>
               );
             })}

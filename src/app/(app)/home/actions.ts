@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/lib/auth";
+import { auth, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -17,4 +17,8 @@ export async function updateProfile(name: string, image: string) {
   });
 
   revalidatePath("/home");
+}
+
+export async function signOutAction() {
+  await signOut({ redirectTo: "/" });
 }

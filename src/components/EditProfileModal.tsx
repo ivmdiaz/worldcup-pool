@@ -2,7 +2,7 @@
 
 import { useState, useTransition, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { updateProfile } from "@/app/(app)/home/actions";
+import { updateProfile, signOutAction } from "@/app/(app)/home/actions";
 import { haptic } from "@/lib/haptic";
 import { C, FS, FW } from "@/lib/tokens";
 
@@ -108,7 +108,7 @@ export default function EditProfileModal({ currentName, googleImage, currentImag
 
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-3 pb-4 border-b border-gray-100 shrink-0">
-          <h2 style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}>Editar perfil</h2>
+          <h2 style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}>Configuración</h2>
           <button
             onClick={onClose}
             className="p-1.5 -mr-1.5 rounded-full active:bg-gray-100 cursor-pointer"
@@ -172,13 +172,15 @@ export default function EditProfileModal({ currentName, googleImage, currentImag
           >
             {isPending ? "Guardando…" : "Guardar"}
           </button>
-          <button
-            onClick={onClose}
-            className="w-full py-2.5 mt-2 text-sm font-semibold cursor-pointer"
-            style={{ color: C.textSecondary }}
-          >
-            Cancelar
-          </button>
+          <form action={signOutAction}>
+            <button
+              type="submit"
+              className="w-full py-2 text-sm font-semibold cursor-pointer"
+              style={{ color: C.dangerText }}
+            >
+              Cerrar sesión
+            </button>
+          </form>
         </div>
 
       </div>
