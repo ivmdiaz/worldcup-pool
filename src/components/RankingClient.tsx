@@ -62,13 +62,17 @@ function PodiumSlot({
   return (
     <button
       onClick={onClick}
-      className="flex-1 flex flex-col items-center gap-0 cursor-pointer active:opacity-80 transition-opacity animate-podium-float"
-      style={{ animationDelay: `${floatDelay}ms` }}
+      className="flex-1 flex flex-col items-center gap-0 cursor-pointer active:opacity-80 transition-opacity"
     >
-      {/* Corona encima del avatar, separada pero pegada */}
-      <CrownIcon color={medalColor} />
-      <div className="-mt-0.5">
-        <Avatar name={entry.name} image={entry.image} size={avatarSize} />
+      {/* Corona + avatar — solo esta parte flota */}
+      <div
+        className="flex flex-col items-center animate-podium-float"
+        style={{ animationDelay: `${floatDelay}ms` }}
+      >
+        <CrownIcon color={medalColor} />
+        <div className="-mt-0.5">
+          <Avatar name={entry.name} image={entry.image} size={avatarSize} />
+        </div>
       </div>
 
       {/* Name */}
