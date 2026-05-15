@@ -1,0 +1,20 @@
+src/components/AdminResultModal.tsx
+  s_b255837a75961a::t_514642ed1342e0 34
+  s_b255837a75961a::t_e9b4bc26bc3a90 36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "bd6528b5c687baf99d5ecfb272256f0e6e1914eb",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
