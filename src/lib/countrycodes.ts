@@ -20,5 +20,5 @@ const CODES: Record<string, string> = {
 export function flagUrl(team: string): string | null {
   const code = CODES[team];
   if (!code) return null;
-  return `https://flagcdn.com/w40/${code}.png`;
+  return `https://flagcdn.com/w80/${code}.png`;
 }
