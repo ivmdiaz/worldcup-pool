@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { type RankingEntry } from "@/lib/ranking";
 import { type UserDetail, getUserDetail } from "@/app/(app)/ranking/actions";
 import { C, FS, FW } from "@/lib/tokens";
@@ -8,19 +8,26 @@ import { haptic } from "@/lib/haptic";
 import RankingUserSheet from "@/components/RankingUserSheet";
 
 // ── Medal config ──────────────────────────────────────────────────────────────
-const MEDAL_COLOR = ["#F59E0B", "#94A3B8", "#92400E"] as const;
+const MEDAL_COLOR = ["#F59E0B", "#64748B", "#C2782A"] as const;
 
-// paddingBottom de cada slot — empuja el contenido hacia arriba desde el fondo
-// #1 (center): sube más → aparece más alto en el podio
-const PODIUM_PB: Record<1 | 2 | 3, number> = { 1: 64, 2: 32, 3: 12 };
+const BLOCK_H: Record<1 | 2 | 3, string> = {
+  1: "clamp(100px, 16dvh, 145px)",
+  2: "clamp(87px,  14dvh, 120px)",
+  3: "clamp(75px,  12dvh, 100px)",
+};
 
 
 // ── Components ────────────────────────────────────────────────────────────────
 function CrownIcon({ color }: { color: string }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill={color} className="drop-shadow-md shrink-0">
-      <path d="M2 19h20v2H2v-2zM2 6l5 6 5-8 5 6 5-6v11H2V6z" />
-    </svg>
+    <div
+      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+      style={{ backgroundColor: "white", boxShadow: `0 2px 8px rgba(0,0,0,0.18)` }}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill={color} stroke={color} strokeWidth={0.5} strokeLinejoin="round">
+        <path d="M2 19h20v2H2v-2zM2 6l5 6 5-8 5 6 5-6v11H2V6z" />
+      </svg>
+    </div>
   );
 }
 
@@ -30,9 +37,13 @@ function PodiumAvatar({
   name: string; image: string | null; size: number; medalColor: string;
 }) {
   const [err, setErr] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    if (ref.current?.complete && ref.current.naturalWidth === 0) setErr(true);
+  }, []);
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   const ring: React.CSSProperties = {
-    boxShadow: `0 0 0 3px ${medalColor}, 0 0 0 5.5px white`,
+    boxShadow: `0 0 0 3px ${medalColor}`,
     borderRadius: "50%",
     width: size,
     height: size,
@@ -41,7 +52,7 @@ function PodiumAvatar({
   };
   if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt="" style={ring} onError={() => setErr(true)} />;
+    return <img ref={ref} src={image} alt="" style={ring} onError={() => setErr(true)} />;
   }
   return (
     <div className="bg-stone-200 flex items-center justify-center shrink-0" style={ring}>
@@ -52,10 +63,14 @@ function PodiumAvatar({
 
 function ListAvatar({ name, image }: { name: string; image: string | null }) {
   const [err, setErr] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    if (ref.current?.complete && ref.current.naturalWidth === 0) setErr(true);
+  }, []);
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt="" className="w-11 h-11 rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
+    return <img ref={ref} src={image} alt="" className="w-11 h-11 rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
   }
   return (
     <div className="w-11 h-11 rounded-full bg-stone-200 flex items-center justify-center shrink-0">
@@ -65,16 +80,15 @@ function ListAvatar({ name, image }: { name: string; image: string | null }) {
 }
 
 function PodiumSlot({
-  entry, position, isCurrent, onClick,
+  entry, position, onClick,
 }: {
   entry: RankingEntry | null;
   position: 1 | 2 | 3;
-  isCurrent: boolean;
   onClick: () => void;
 }) {
   const medalColor = MEDAL_COLOR[position - 1];
-  const avatarSize = position === 1 ? 84 : position === 2 ? 70 : 60;
-  const pb = PODIUM_PB[position];
+  const avatarSize = 76;
+  const blockH = BLOCK_H[position];
 
   if (!entry) return <div className="flex-1" />;
 
@@ -82,31 +96,32 @@ function PodiumSlot({
     <button
       onClick={onClick}
       className="flex-1 flex flex-col justify-end items-center cursor-pointer active:opacity-75 transition-opacity"
-      style={{ paddingBottom: pb }}
     >
       <CrownIcon color={medalColor} />
 
-      {/* Avatar con ring de medalla */}
-      <div className="relative -mt-0.5">
-        <PodiumAvatar name={entry.name} image={entry.image} size={avatarSize} medalColor={medalColor} />
-        {/* Badge de posición en el borde inferior del avatar */}
-        <div
-          className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full flex items-center justify-center"
-          style={{ backgroundColor: medalColor }}
-        >
-          <span className="text-white font-extrabold" style={{ fontSize: "9px" }}>{position}</span>
-        </div>
-      </div>
+      <PodiumAvatar name={entry.name} image={entry.image} size={avatarSize} medalColor={medalColor} />
 
-      <p
-        className="text-center leading-tight px-1 w-full truncate mt-3"
-        style={{ fontSize: FS.body, fontWeight: FW.extrabold, color: isCurrent ? C.primary : C.textPrimary }}
+      {/* Pedestal — nombre y pts conectan directo con el avatar */}
+      <div
+        className="w-full rounded-t-2xl flex flex-col items-center justify-center gap-0.5 px-2 pt-2 pb-3"
+        style={{ height: blockH, backgroundColor: medalColor }}
       >
-        {entry.name.split(" ")[0]}
-      </p>
-      <p style={{ fontSize: FS.body, fontWeight: FW.semibold, color: C.textSecondary }}>
-        {entry.totalPoints} pts
-      </p>
+        <p
+          className="text-center leading-tight w-full truncate"
+          style={{ fontSize: FS.body, fontWeight: FW.extrabold, color: "white" }}
+        >
+          {entry.name.split(" ")[0]}
+        </p>
+        <p style={{ fontSize: FS.caption, fontWeight: FW.semibold, color: "rgba(255,255,255,0.85)" }}>
+          {entry.totalPoints} pts
+        </p>
+        <span
+          className="mt-1 w-6 h-6 rounded-full flex items-center justify-center bg-white"
+          style={{ fontSize: "11px", fontWeight: FW.extrabold, color: medalColor }}
+        >
+          {position}
+        </span>
+      </div>
     </button>
   );
 }
@@ -149,8 +164,10 @@ export default function RankingClient({ entries, currentUserId }: Props) {
     <div className="flex flex-col animate-entrance" style={{ height: "100dvh" }}>
 
       {/* ── Podio ── */}
-      <div className="relative flex-[4] min-h-0 overflow-hidden bg-gradient-to-br from-stone-100 to-amber-50 flex flex-col px-5 pt-4 pb-0">
-
+      <div
+        className="relative flex-[4] min-h-0 overflow-hidden flex flex-col px-5 pt-4 pb-0"
+        style={{ backgroundImage: "url('/ranking-background.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+      >
         {/* Fireworks — 3 bursts */}
         <div className="fw-burst" />
         <div className="fw-burst fw-burst-2" />
@@ -167,7 +184,6 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                 key={pos}
                 entry={entries[pos - 1] ?? null}
                 position={pos}
-                isCurrent={entries[pos - 1]?.id === currentUserId}
                 onClick={() => {
                   const e = entries[pos - 1];
                   if (e) handleSelect(e, pos);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { type RankingEntry } from "@/lib/ranking";
 import { type UserDetail } from "@/app/(app)/ranking/actions";
@@ -11,10 +11,14 @@ const MEDAL = ["🥇", "🥈", "🥉"];
 
 function Avatar({ name, image, size = 56 }: { name: string; image: string | null; size?: number }) {
   const [err, setErr] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    if (ref.current?.complete && ref.current.naturalWidth === 0) setErr(true);
+  }, []);
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   if (image && !err) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
+    return <img ref={ref} src={image} alt="" style={{ width: size, height: size }} className="rounded-full object-cover shrink-0" onError={() => setErr(true)} />;
   }
   return (
     <div

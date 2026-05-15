@@ -75,10 +75,6 @@ export default async function HomePage() {
       subtitle: effectivePredictionsMade > 0 ? `Vas #${position} · ${totalPoints} pts` : "Acceso rápido",
       badge: null,
     },
-    {
-      href: "/tabla", label: "Tabla", image: "/tabla.png",
-      vtClass: "vt-tabla", subtitle: "Ver posiciones", badge: null,
-    },
   ];
 
   return (
