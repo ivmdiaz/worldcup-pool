@@ -4,7 +4,7 @@ import { useState, useTransition, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { updateProfile } from "@/app/(app)/home/actions";
 import { haptic } from "@/lib/haptic";
-import { C } from "@/lib/tokens";
+import { C, FS, FW } from "@/lib/tokens";
 
 // Agregá las mascotas acá cuando estén disponibles en /public/mascotas/
 const MASCOTAS: string[] = [
@@ -60,7 +60,7 @@ export default function EditProfileModal({ currentName, googleImage, currentImag
 
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-3 pb-4 border-b border-gray-100 shrink-0">
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: C.textPrimary }}>Editar perfil</h2>
+          <h2 style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}>Editar perfil</h2>
           <button
             onClick={onClose}
             className="p-1.5 -mr-1.5 rounded-full active:bg-gray-100 cursor-pointer"
@@ -83,7 +83,7 @@ export default function EditProfileModal({ currentName, googleImage, currentImag
               onChange={(e) => setName(e.target.value)}
               maxLength={40}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm font-medium focus:outline-none focus:ring-2 focus:border-transparent"
-              style={{ "--tw-ring-color": "#1E8E3E" } as React.CSSProperties}
+              style={{ "--tw-ring-color": C.primary } as React.CSSProperties}
               placeholder="Tu nombre"
             />
           </div>

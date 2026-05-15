@@ -4,7 +4,7 @@ import EditProfileButton from "@/components/EditProfileButton";
 import NavCardLink from "@/components/NavCardLink";
 import { formatTime } from "@/lib/datetime";
 import { getPredictionStats } from "@/lib/match";
-import { C } from "@/lib/tokens";
+import { C, FS, SPACE } from "@/lib/tokens";
 
 // ─── Preview mock — set false to revert ──────────────────────────────────────
 const MOCK_MODE = false;
@@ -124,15 +124,15 @@ export default async function HomePage() {
               initials={initials}
             />
             <div className="min-w-0 flex-1">
-              <p className="text-stone-900 font-extrabold text-[26px] leading-tight">{name}</p>
+              <p className="text-stone-900 font-extrabold leading-tight" style={{ fontSize: FS.title }}>{name}</p>
               <div className="flex mt-4">
                 <div className="flex flex-col flex-1 items-center">
-                  <span className="text-stone-900 font-extrabold text-[28px] tabular-nums leading-none">{totalPoints}</span>
+                  <span className="text-stone-900 font-extrabold tabular-nums leading-none" style={{ fontSize: FS.hero }}>{totalPoints}</span>
                   <span className="text-stone-500 text-xs font-semibold mt-1">Puntos</span>
                 </div>
                 <div className="flex flex-col flex-1 items-center">
                   {effectivePredictionsMade > 0 ? (
-                    <span className="flex items-center gap-1 text-emerald-600 font-extrabold text-[28px] tabular-nums leading-none">
+                    <span className="flex items-center gap-1 text-emerald-600 font-extrabold tabular-nums leading-none" style={{ fontSize: FS.hero }}>
                       <svg className="w-4 h-4 shrink-0 mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="6 9 6 2 18 2 18 9" />
                         <path d="M6 9a6 6 0 0012 0" />
@@ -144,7 +144,7 @@ export default async function HomePage() {
                       {position}°
                     </span>
                   ) : (
-                    <span className="text-emerald-600 font-extrabold text-[28px] tabular-nums leading-none">—</span>
+                    <span className="text-emerald-600 font-extrabold tabular-nums leading-none" style={{ fontSize: FS.hero }}>—</span>
                   )}
                   <span className="text-stone-500 text-xs font-semibold mt-1">Posición</span>
                 </div>
@@ -164,7 +164,7 @@ export default async function HomePage() {
                   { value: missCount,  label: "Sin puntos", sublabel: "0 pts" },
                 ].map(({ value, label, sublabel }, i) => (
                   <div key={label} className={`flex flex-col items-center ${i > 0 ? "border-l border-stone-200" : ""}`}>
-                    <span className="text-[18px] font-extrabold text-gray-900 tabular-nums leading-none">{value}</span>
+                    <span className="font-extrabold text-gray-900 tabular-nums leading-none" style={{ fontSize: FS.title }}>{value}</span>
                     <span className="text-[12px] font-bold text-gray-500 mt-0.5">{label}</span>
                     <span className="text-[11px] font-medium text-gray-400 leading-tight">{sublabel}</span>
                   </div>
@@ -203,8 +203,8 @@ export default async function HomePage() {
               <span
                 className="absolute top-3 right-3 z-20 font-bold rounded-full"
                 style={{
-                  fontSize: "14px",
-                  padding: "8px 12px",
+                  fontSize: FS.body,
+                  padding: SPACE.pill,
                   backgroundColor: badge.bg ?? "rgba(255,255,255,0.92)",
                   color: badge.color,
                   boxShadow: badge.shadow,
@@ -227,7 +227,7 @@ export default async function HomePage() {
             <div className="relative z-10 h-full flex flex-col justify-end px-4 pb-4">
               <div className="flex items-end justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="text-white font-extrabold text-[28px] leading-tight tracking-wide drop-shadow-lg">
+                  <p className="text-white font-extrabold leading-tight tracking-wide drop-shadow-lg" style={{ fontSize: FS.hero }}>
                     {label}
                   </p>
                   <p className="text-white font-semibold text-sm mt-0.5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}>
@@ -272,7 +272,7 @@ export default async function HomePage() {
               )}
               <div className="flex items-end justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="text-white font-extrabold text-[28px] leading-tight tracking-wide drop-shadow-lg">
+                  <p className="text-white font-extrabold leading-tight tracking-wide drop-shadow-lg" style={{ fontSize: FS.hero }}>
                     Admin
                   </p>
                   <p className="text-white/75 font-semibold text-sm mt-0.5">

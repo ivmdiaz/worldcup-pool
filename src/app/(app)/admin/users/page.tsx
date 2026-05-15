@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { prisma } from "@/lib/prisma";
+import { GRADIENT } from "@/lib/tokens";
 import { approveUser, rejectUser } from "./actions";
 import UserAvatar from "@/components/UserAvatar";
 import { C } from "@/lib/tokens";
@@ -17,7 +18,7 @@ export default async function AdminUsersPage() {
       {/* Hero */}
       <div
         className="relative h-36 w-full shrink-0"
-        style={{ background: "linear-gradient(135deg, #1e293b 0%, #334155 100%)" }}
+        style={{ background: GRADIENT.adminHero }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         <div className="relative z-10 h-full flex items-end px-5 pb-5">

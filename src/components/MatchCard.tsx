@@ -2,7 +2,7 @@
 
 import { formatTime, getCloseText } from "@/lib/datetime";
 import { computeMatchStatus } from "@/lib/match";
-import { C, LABEL, SCORE, SEP } from "@/lib/tokens";
+import { C, LABEL, SCORE, SEP, FS, FW, SPACE } from "@/lib/tokens";
 import FlagImg from "@/components/FlagImg";
 
 type MatchStatus = "SCHEDULED" | "LIVE" | "FINISHED" | "CANCELLED";
@@ -80,17 +80,17 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
       style={style}
     >
       {/* Header row */}
-      <div className="px-4 pt-3.5 pb-4 flex items-center justify-between min-h-[52px]">
-        <span style={{ fontSize: 12, fontWeight: 700, color: C.textSecondary }}>
+      <div className="px-4 pt-3 pb-3 flex items-center justify-between min-h-[44px]">
+        <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>
           {match.group ? `Grupo ${match.group} · ` : ""}{formatTime(match.scheduledAt)}
         </span>
         <span
           className="rounded-full shrink-0"
           style={{
-            fontSize: 12, fontWeight: 800,
+            fontSize: FS.caption, fontWeight: FW.extrabold,
             backgroundColor: pill.bg, color: pill.color,
             border: `1px solid ${pill.border}`,
-            padding: "6px 12px",
+            padding: SPACE.pill,
             minWidth: 56, textAlign: "center" as const,
           }}
         >
@@ -99,17 +99,17 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
       </div>
 
       {/* Teams row */}
-      <div className="px-4 pt-1.5 pb-3 flex items-center gap-2">
+      <div className="px-4 pt-1 pb-2 flex items-center gap-2">
         <div className="flex-1 flex flex-col items-center gap-1.5">
           <FlagImg team={match.homeTeam} />
-          <p style={{ fontSize: 14, fontWeight: 800, color: C.textPrimary }} className="text-center leading-tight">{match.homeTeam}</p>
+          <p style={{ fontSize: FS.body, fontWeight: FW.extrabold, color: C.textPrimary }} className="text-center leading-tight">{match.homeTeam}</p>
         </div>
         <div className="w-10 shrink-0 flex justify-center">
-          <span style={{ fontSize: 14, fontWeight: 800, color: C.textSecondary }}>vs</span>
+          <span style={{ fontSize: FS.body, fontWeight: FW.extrabold, color: C.textSecondary }}>vs</span>
         </div>
         <div className="flex-1 flex flex-col items-center gap-1.5">
           <FlagImg team={match.awayTeam} />
-          <p style={{ fontSize: 14, fontWeight: 800, color: C.textPrimary }} className="text-center leading-tight">{match.awayTeam}</p>
+          <p style={{ fontSize: FS.body, fontWeight: FW.extrabold, color: C.textPrimary }} className="text-center leading-tight">{match.awayTeam}</p>
         </div>
       </div>
 
@@ -118,7 +118,7 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
 
       {/* Scoreboard container */}
       <div className="px-4 pt-3 pb-0">
-        <div style={{ backgroundColor: C.scoreboardBg, border: `1px solid ${C.divider}`, borderRadius: 12, padding: 12 }}>
+        <div style={{ backgroundColor: C.scoreboardBg, border: `1px solid ${C.divider}`, borderRadius: 12, padding: SPACE.board }}>
 
           {/* PENDING */}
           {computedStatus === "PENDING" && (
@@ -128,12 +128,12 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
                 {prediction ? (
                   <p className="tabular-nums mt-1" style={SCORE}>{predDisplay}</p>
                 ) : (
-                  <p className="mt-1" style={{ fontSize: 14, fontWeight: 500, color: C.textSecondary, lineHeight: 1.2 }}>Sin pronóstico</p>
+                  <p className="mt-1" style={{ fontSize: FS.body, fontWeight: FW.medium, color: C.textSecondary, lineHeight: 1.2 }}>Sin pronóstico</p>
                 )}
               </div>
               <div className="text-right">
                 <p style={LABEL}>Cierre</p>
-                <p className="mt-1" style={{ fontSize: 13, fontWeight: 500, color: C.textSecondary, lineHeight: 1.2 }}>
+                <p className="mt-1" style={{ fontSize: FS.body, fontWeight: FW.medium, color: C.textSecondary, lineHeight: 1.2 }}>
                   {getCloseText(match.scheduledAt, now)}
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
               </div>
               <div className="text-right">
                 <p style={LABEL}>Estado</p>
-                <p className="mt-1" style={{ fontSize: 14, fontWeight: 500, color: C.warningText, lineHeight: 1.2 }}>Cerrado</p>
+                <p className="mt-1" style={{ fontSize: FS.body, fontWeight: FW.medium, color: C.warningText, lineHeight: 1.2 }}>Cerrado</p>
               </div>
             </div>
           )}
@@ -164,11 +164,11 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
               <div className="text-right">
                 <p style={LABEL}>{hasLiveScore ? "Marcador" : "Estado"}</p>
                 {hasLiveScore ? (
-                  <p className="tabular-nums mt-1" style={{ fontSize: 22, fontWeight: 500, color: C.scoreText, lineHeight: 1.1 }}>
+                  <p className="tabular-nums mt-1" style={{ fontSize: FS.title, fontWeight: FW.medium, color: C.scoreText, lineHeight: 1.1 }}>
                     {realDisplay}
                   </p>
                 ) : (
-                  <p className="mt-1" style={{ fontSize: 14, fontWeight: 500, color: C.dangerText, lineHeight: 1.2 }}>En vivo</p>
+                  <p className="mt-1" style={{ fontSize: FS.body, fontWeight: FW.medium, color: C.dangerText, lineHeight: 1.2 }}>En vivo</p>
                 )}
               </div>
             </div>
@@ -193,15 +193,15 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
 
       {/* CTA — only for PENDING; solid only when ≤60 min */}
       {isPending ? (
-        <div className="px-4 pt-3 pb-3.5">
+        <div className="px-4 pt-2.5 pb-3">
           {!prediction ? (
             <button
               onClick={() => onPredict?.(match, undefined)}
-              className="w-full h-12 rounded-[14px] text-sm cursor-pointer transition-opacity active:opacity-80"
+              className="w-full h-10 rounded-[14px] text-sm cursor-pointer transition-opacity active:opacity-80"
               style={
                 diffMinutes <= 60
-                  ? { backgroundColor: C.primary, color: C.white, fontWeight: 700 }
-                  : { border: `1px solid ${C.primary}`, color: C.primary, backgroundColor: "transparent", fontWeight: 700 }
+                  ? { backgroundColor: C.primary, color: C.white, fontWeight: FW.bold }
+                  : { border: `1px solid ${C.primary}`, color: C.primary, backgroundColor: "transparent", fontWeight: FW.bold }
               }
             >
               Pronosticar
@@ -209,15 +209,15 @@ export default function MatchCard({ match, prediction, now, onPredict, style }: 
           ) : (
             <button
               onClick={() => onPredict?.(match, prediction)}
-              className="w-full h-12 rounded-[14px] text-sm cursor-pointer active:opacity-80"
-              style={{ border: `1px solid ${C.primary}`, color: C.primary, backgroundColor: "transparent", fontWeight: 700 }}
+              className="w-full h-10 rounded-[14px] text-sm cursor-pointer active:opacity-80"
+              style={{ border: `1px solid ${C.primary}`, color: C.primary, backgroundColor: "transparent", fontWeight: FW.bold }}
             >
               Editar pronóstico
             </button>
           )}
         </div>
       ) : (
-        <div className="pb-3.5" />
+        <div className="pb-2.5" />
       )}
     </div>
   );

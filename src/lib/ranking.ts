@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 export type RankingEntry = {
   id: string;
   name: string;
+  image: string | null;
   totalPoints: number;
   predictionsCount: number;
   exactCount: number;
@@ -12,7 +13,7 @@ export async function getRanking(): Promise<RankingEntry[]> {
   const [users, totals, exacts] = await Promise.all([
     prisma.user.findMany({
       where: { role: { in: ["USER", "ADMIN"] } },
-      select: { id: true, name: true },
+      select: { id: true, name: true, image: true },
     }),
     prisma.prediction.groupBy({
       by: ["userId"],
@@ -34,6 +35,7 @@ export async function getRanking(): Promise<RankingEntry[]> {
     .map((u) => ({
       id: u.id,
       name: u.name ?? "Sin nombre",
+      image: u.image ?? null,
       totalPoints:      totalsMap.get(u.id)?._sum.points  ?? 0,
       predictionsCount: totalsMap.get(u.id)?._count._all  ?? 0,
       exactCount:       exactsMap.get(u.id)               ?? 0,

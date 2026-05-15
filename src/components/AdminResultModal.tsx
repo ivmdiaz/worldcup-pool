@@ -6,7 +6,7 @@ import { type MatchCardMatch } from "@/components/MatchCard";
 import { updateMatchResult } from "@/app/(app)/admin/actions";
 import { haptic } from "@/lib/haptic";
 import { formatDateTime } from "@/lib/datetime";
-import { C } from "@/lib/tokens";
+import { C, FS, FW } from "@/lib/tokens";
 import FlagImg from "@/components/FlagImg";
 
 interface Props {
@@ -69,7 +69,7 @@ export default function AdminResultModal({ match, onClose }: Props) {
         {/* Header */}
         <div className="px-6 pb-4 flex items-start justify-between">
           <div>
-            <h2 className="font-bold text-gray-900" style={{ fontSize: 22, fontWeight: 800 }}>
+            <h2 className="font-bold text-gray-900" style={{ fontSize: FS.title, fontWeight: FW.extrabold }}>
               {isEdit ? "Editar resultado" : "Confirmar resultado"}
             </h2>
             <p className="text-xs text-gray-400 mt-0.5">{formatDateTime(match.scheduledAt)}</p>
@@ -98,7 +98,7 @@ export default function AdminResultModal({ match, onClose }: Props) {
             </p>
             <div className="flex items-center gap-3">
               <StepperButton onClick={() => setHomeScore(Math.max(0, homeScore - 1))}>−</StepperButton>
-              <span className="w-10 text-center tabular-nums leading-none" style={{ fontSize: 32, fontWeight: 700, color: C.textPrimary }}>
+              <span className="w-10 text-center tabular-nums leading-none" style={{ fontSize: FS.hero, fontWeight: FW.bold, color: C.textPrimary }}>
                 {homeScore}
               </span>
               <StepperButton onClick={() => setHomeScore(Math.min(20, homeScore + 1))}>+</StepperButton>
@@ -117,7 +117,7 @@ export default function AdminResultModal({ match, onClose }: Props) {
             </p>
             <div className="flex items-center gap-3">
               <StepperButton onClick={() => setAwayScore(Math.max(0, awayScore - 1))}>−</StepperButton>
-              <span className="w-10 text-center tabular-nums leading-none" style={{ fontSize: 32, fontWeight: 700, color: C.textPrimary }}>
+              <span className="w-10 text-center tabular-nums leading-none" style={{ fontSize: FS.hero, fontWeight: FW.bold, color: C.textPrimary }}>
                 {awayScore}
               </span>
               <StepperButton onClick={() => setAwayScore(Math.min(20, awayScore + 1))}>+</StepperButton>

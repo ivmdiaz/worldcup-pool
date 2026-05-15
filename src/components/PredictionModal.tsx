@@ -6,7 +6,7 @@ import { type MatchCardMatch, type MatchCardPrediction } from "@/components/Matc
 import { savePrediction } from "@/app/(app)/matches/actions";
 import { haptic } from "@/lib/haptic";
 import { formatDateTime } from "@/lib/datetime";
-import { C } from "@/lib/tokens";
+import { C, FS, FW } from "@/lib/tokens";
 import FlagImg from "@/components/FlagImg";
 
 interface Props {
@@ -37,7 +37,7 @@ function TeamStepper({
           className="w-10 h-10 rounded-full border flex items-center justify-center text-xl font-bold disabled:opacity-40 cursor-pointer active:bg-gray-50"
           style={{ borderColor: C.borderDefault, color: C.scoreText }}
         >−</button>
-        <span className="w-10 text-center tabular-nums leading-none" style={{ fontSize: 32, fontWeight: 700, color: C.textPrimary }}>
+        <span className="w-10 text-center tabular-nums leading-none" style={{ fontSize: FS.hero, fontWeight: FW.bold, color: C.textPrimary }}>
           {score}
         </span>
         <button
@@ -91,7 +91,7 @@ export default function PredictionModal({ match, prediction, now, onClose }: Pro
         {/* Header */}
         <div className="px-6 pb-4 flex items-start justify-between">
           <div>
-            <h2 className="font-bold text-gray-900" style={{ fontSize: 22, fontWeight: 800 }}>
+            <h2 className="font-bold text-gray-900" style={{ fontSize: FS.title, fontWeight: FW.extrabold }}>
               {prediction ? "Editar pronóstico" : "Pronosticar"}
             </h2>
             <p className="text-xs text-gray-400 mt-0.5">{formatDateTime(match.scheduledAt)}</p>
