@@ -31,8 +31,9 @@ function StepperButton({ onClick, children }: { onClick: () => void; children: R
 function TeamPicker({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   const [query, setQuery] = useState(value);
   const [open, setOpen] = useState(false);
+  const normalize = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
   const filtered = query.length > 0
-    ? TEAM_NAMES.filter(t => t.toLowerCase().includes(query.toLowerCase())).slice(0, 8)
+    ? TEAM_NAMES.filter(t => normalize(t).includes(normalize(query))).slice(0, 8)
     : [];
 
   function select(team: string) {
