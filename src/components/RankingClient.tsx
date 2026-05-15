@@ -10,18 +10,26 @@ import RankingUserSheet from "@/components/RankingUserSheet";
 const MEDAL_COLOR = ["#F59E0B", "#94A3B8", "#92400E"] as const;
 const PEDESTAL_H  = [90, 65, 45] as const;
 
+function CrownIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" className="drop-shadow">
+      <path d="M2 19h20v2H2v-2zM2 6l5 6 5-8 5 8 5-6v11H2V6z" />
+    </svg>
+  );
+}
+
 function Avatar({ name, image, size = 48 }: { name: string; image: string | null; size?: number }) {
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   if (image) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover ring-2 ring-white shrink-0" />;
+    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover ring-2 ring-white/80 shrink-0" />;
   }
   return (
     <div
-      className="rounded-full bg-stone-300 flex items-center justify-center ring-2 ring-white shrink-0"
+      className="rounded-full bg-white/20 flex items-center justify-center ring-2 ring-white/80 shrink-0"
       style={{ width: size, height: size }}
     >
-      <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>
+      <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.white }}>
         {initials}
       </span>
     </div>
@@ -38,7 +46,7 @@ function PodiumSlot({
 }) {
   const pedestalH = PEDESTAL_H[position - 1];
   const medalColor = MEDAL_COLOR[position - 1];
-  const avatarSize = position === 1 ? 56 : 44;
+  const avatarSize = position === 1 ? 60 : 46;
 
   if (!entry) {
     return (
@@ -53,30 +61,42 @@ function PodiumSlot({
       onClick={onClick}
       className="flex-1 flex flex-col items-center gap-1 cursor-pointer active:opacity-80 transition-opacity"
     >
-      {/* Position badge */}
-      <span style={{ fontSize: FS.micro, fontWeight: FW.extrabold, color: medalColor }}>
-        {position === 1 ? "🏆" : `#${position}`}
-      </span>
+      {/* Crown for #1, position badge for #2/#3 */}
+      {position === 1 ? (
+        <CrownIcon />
+      ) : (
+        <span
+          className="rounded-full px-2 py-0.5"
+          style={{ fontSize: FS.micro, fontWeight: FW.extrabold, color: medalColor, backgroundColor: `${medalColor}25` }}
+        >
+          #{position}
+        </span>
+      )}
+
       {/* Avatar */}
       <Avatar name={entry.name} image={entry.image} size={avatarSize} />
+
       {/* Name */}
       <p
         className="text-center leading-tight px-1 w-full truncate"
         style={{
-          fontSize: FS.micro, fontWeight: FW.bold,
-          color: isCurrent ? C.primary : C.textPrimary,
+          fontSize: FS.micro, fontWeight: FW.extrabold,
+          color: isCurrent ? "#86efac" : "rgba(255,255,255,0.95)",
+          textShadow: "0 1px 3px rgba(0,0,0,0.4)",
         }}
       >
         {entry.name.split(" ")[0]}
       </p>
+
       {/* Points */}
-      <p style={{ fontSize: FS.micro, fontWeight: FW.semibold, color: C.textSecondary }}>
+      <p style={{ fontSize: FS.micro, fontWeight: FW.semibold, color: "rgba(255,255,255,0.7)" }}>
         {entry.totalPoints} pts
       </p>
+
       {/* Pedestal */}
       <div
         className="rounded-t-xl w-full mt-1"
-        style={{ height: pedestalH, backgroundColor: `${medalColor}40`, border: `2px solid ${medalColor}60` }}
+        style={{ height: pedestalH, backgroundColor: `${medalColor}50`, border: `2px solid ${medalColor}80` }}
       />
     </button>
   );
@@ -88,13 +108,12 @@ interface Props {
 }
 
 export default function RankingClient({ entries, currentUserId }: Props) {
-  const [selectedEntry, setSelectedEntry]   = useState<RankingEntry | null>(null);
+  const [selectedEntry, setSelectedEntry]  = useState<RankingEntry | null>(null);
   const [selectedPosition, setSelectedPos] = useState(0);
-  const [detail, setDetail]                 = useState<UserDetail | null>(null);
-  const [loading, setLoading]               = useState(false);
+  const [detail, setDetail]                = useState<UserDetail | null>(null);
+  const [loading, setLoading]              = useState(false);
 
-  const top3 = [entries[1] ?? null, entries[0] ?? null, entries[2] ?? null]; // [#2, #1, #3]
-  const rest  = entries.slice(3);
+  const rest = entries.slice(3);
 
   async function handleSelect(entry: RankingEntry, position: number) {
     haptic("light");
@@ -119,32 +138,50 @@ export default function RankingClient({ entries, currentUserId }: Props) {
   return (
     <div className="flex flex-col animate-entrance" style={{ height: "100dvh" }}>
 
-      {/* ── Podio ── */}
-      <div className="flex-[4] min-h-0 bg-gradient-to-br from-stone-100 to-amber-50 flex flex-col px-5 pt-4 pb-0 overflow-hidden">
-        <p style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }} className="shrink-0 mb-2">
-          Ranking
-        </p>
+      {/* ── Hero podio ── */}
+      <div className="relative flex-[4] min-h-0 overflow-hidden">
+        {/* Background image — Ken Burns */}
+        <div
+          className="card-bg absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/ranking.png')",
+            "--kb-duration": "20s",
+            "--kb-delay": "-5s",
+          } as React.CSSProperties}
+        />
+        {/* Gradient overlay — más oscuro abajo para que los pedestales se lean */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/15" />
 
-        {entries.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center">
-            <p style={{ fontSize: FS.body, color: C.textSecondary }}>Aún sin participantes.</p>
-          </div>
-        ) : (
-          <div className="flex-1 flex items-end justify-center gap-3 min-h-0 pb-0">
-            {([2, 1, 3] as const).map((pos) => {
-              const entry = entries[pos - 1] ?? null;
-              return (
-                <PodiumSlot
-                  key={pos}
-                  entry={entry}
-                  position={pos}
-                  isCurrent={entry?.id === currentUserId}
-                  onClick={() => entry && handleSelect(entry, pos)}
-                />
-              );
-            })}
-          </div>
-        )}
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col px-5 pt-4 pb-0">
+          <p
+            className="shrink-0 mb-2 text-white drop-shadow-lg"
+            style={{ fontSize: FS.title, fontWeight: FW.extrabold }}
+          >
+            Ranking
+          </p>
+
+          {entries.length === 0 ? (
+            <div className="flex-1 flex items-center justify-center">
+              <p style={{ fontSize: FS.body, color: "rgba(255,255,255,0.7)" }}>Aún sin participantes.</p>
+            </div>
+          ) : (
+            <div className="flex-1 flex items-end justify-center gap-3 min-h-0">
+              {([2, 1, 3] as const).map((pos) => {
+                const entry = entries[pos - 1] ?? null;
+                return (
+                  <PodiumSlot
+                    key={pos}
+                    entry={entry}
+                    position={pos}
+                    isCurrent={entry?.id === currentUserId}
+                    onClick={() => entry && handleSelect(entry, pos)}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── Lista (4th+) ── */}
@@ -165,7 +202,7 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                   className="w-full text-left cursor-pointer active:opacity-80 transition-opacity"
                 >
                   <div
-                    className="flex items-center gap-3 bg-white rounded-2xl px-4 py-3"
+                    className="flex items-center gap-3 rounded-2xl px-4 py-3"
                     style={{
                       border: isCurrent ? `1.5px solid ${C.primary}` : `1px solid ${C.divider}`,
                       backgroundColor: isCurrent ? C.successBg : C.surface,
