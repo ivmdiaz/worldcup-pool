@@ -1,0 +1,62 @@
+scripts/seed-test.js
+  s_b255837a75961a::t_6f09a95663d6db 1-148
+src/app/(app)/matches/page.tsx
+  s_b255837a75961a::t_1e8b4979429f66 19,31
+  s_b255837a75961a::t_79368e7cecc209 44-45
+scripts/cleanup.js
+  s_b255837a75961a::t_cf0ed1af1f6b95 1-30
+src/app/(app)/home/page.tsx
+  s_b255837a75961a::t_843687e9ff5b3b 160
+  s_b255837a75961a::t_ae7cd904d3df4e 39-44
+  s_b255837a75961a::t_1148e9c22b0e12 228-229
+  s_b255837a75961a::t_d844c4d19ac065 63,67,74,80
+  s_b255837a75961a::t_cef091e1ed9824 168-169
+src/components/RankingUserSheet.tsx
+  s_b255837a75961a::t_8e23d6477c68a0 116
+  s_b255837a75961a::t_5c78df9f4f0d2e 13,15,17
+  s_b255837a75961a::t_14be1576af9566 8
+src/components/RankingClient.tsx
+  s_b255837a75961a::t_1b6f61c94a7823 32,42,54,56
+  s_b255837a75961a::t_f4dee600f956e8 103,107
+  s_b255837a75961a::t_a64b342ab0cff3 155-157
+  s_b255837a75961a::t_b22193c501a0e0 3
+  s_b255837a75961a::t_cc4e84e5408dc0 154
+  s_b255837a75961a::t_13af275bdb50f0 58
+  s_b255837a75961a::t_a396b76e2b0da5 44
+src/components/EditProfileButton.tsx
+  s_b255837a75961a::t_cb0df5b8a52f22 15,24,26
+src/app/(app)/ranking/page.tsx
+  s_b255837a75961a::t_5ef4879f39f13d 4,9,14
+src/app/globals.css
+  s_b255837a75961a::t_5b76607aa9b935 76
+  s_b255837a75961a::t_87fd10184055cb 146,148,152
+  s_b255837a75961a::t_f790b494bfd616 94
+  s_b255837a75961a::t_9ebcd7d01780bf 156,160-161,164,168-169
+  s_b255837a75961a::t_a00a2b9817760c 70
+  s_b255837a75961a::t_a7073ce87133b0 78-84
+  s_b255837a75961a::t_00fd6120e4e649 75,85
+  s_b255837a75961a::t_c2884d39476b6a 95
+  s_b255837a75961a::t_f63e1a58348721 86
+  s_b255837a75961a::t_7fab2e3ea65d37 77,87
+  s_b255837a75961a::t_507547f67cce32 71,88-93,100-101,103,105,108-145,147,150-151,154-155,158-159,162-163,166-167
+  s_b255837a75961a::t_4fb68c99ee3d64 67-69,96-99,104,106-107,149,153,157,165
+  s_b255837a75961a::t_a17f2a8651b315 74
+  s_b255837a75961a::t_d39d8d3f4c545c 72
+  s_b255837a75961a::t_795df18d2534ab 102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "2667b175ca9d07e6478c486340fe850bb0dca725",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
