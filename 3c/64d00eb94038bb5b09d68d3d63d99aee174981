@@ -1,0 +1,30 @@
+src/app/(app)/home/actions.ts
+  s_b255837a75961a::t_4ac147be4cf44f 21-24
+  s_b255837a75961a::t_1eb68818da59e7 3
+src/components/EditProfileButton.tsx
+  s_b255837a75961a::t_8497ebb290cefa 34
+  s_b255837a75961a::t_147ffeda54be3b 32-33
+src/components/EditProfileModal.tsx
+  s_b255837a75961a::t_4b3e453f34ad80 175-183
+  s_b255837a75961a::t_207c1214fb252b 5
+  s_b255837a75961a::t_f4dc2aa8fc3bb0 111
+src/components/RankingClient.tsx
+  s_b255837a75961a::t_a1ea04d05bdf0f 75,78
+  s_b255837a75961a::t_002d78dd491f6b 200,206,214-215,217
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "3c64d00eb94038bb5b09d68d3d63d99aee174981",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
