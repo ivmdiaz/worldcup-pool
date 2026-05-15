@@ -37,7 +37,7 @@ export default async function AdminPage({
   const now = Date.now();
 
   return (
-    <div className="flex flex-col" style={{ height: "100dvh" }}>
+    <div className="flex flex-col overflow-y-auto scrollbar-hide" style={{ height: "100dvh" }}>
 
       {/* Hero */}
       <div className="nav-card h-36 w-full shrink-0">
@@ -75,7 +75,7 @@ export default async function AdminPage({
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-h-0 overflow-y-auto px-4 pt-3 pb-24 bg-gray-100 flex flex-col gap-4">
+      <div className="px-4 pt-3 pb-24 bg-gray-100 flex flex-col gap-4">
 
         {/* ── Tab: Usuarios ── */}
         {tab === "usuarios" && (

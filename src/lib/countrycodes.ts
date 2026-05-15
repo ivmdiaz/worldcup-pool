@@ -1,8 +1,8 @@
 const CODES: Record<string, string> = {
   "México": "mx", "Sudáfrica": "za", "Corea del Sur": "kr",
-  "Canadá": "ca", "Qatar": "qa", "Suiza": "ch",
+  "Canadá": "ca", "Qatar": "qa", "Catar": "qa", "Suiza": "ch",
   "Brasil": "br", "Marruecos": "ma", "Haití": "ht", "Escocia": "gb-sct",
-  "EE.UU.": "us", "Paraguay": "py", "Australia": "au",
+  "EE.UU.": "us", "Estados Unidos": "us", "Paraguay": "py", "Australia": "au",
   "Alemania": "de", "Curazao": "cw", "Costa de Marfil": "ci", "Ecuador": "ec",
   "Países Bajos": "nl", "Japón": "jp", "Túnez": "tn",
   "Bélgica": "be", "Egipto": "eg", "Irán": "ir", "Nueva Zelanda": "nz",
@@ -14,6 +14,7 @@ const CODES: Record<string, string> = {
   "Turquía": "tr", "Kosovo": "xk", "Dinamarca": "dk", "Chequia": "cz",
   "Italia": "it", "Bosnia": "ba", "Suecia": "se", "Polonia": "pl",
   "Irak": "iq", "Bolivia": "bo", "Jamaica": "jm",
+  "Bosnia y Herzegovina": "ba", "Rep. Dem. del Congo": "cd",
 };
 
 export function flagUrl(team: string): string | null {
