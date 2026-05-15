@@ -38,7 +38,7 @@ export default function MatchesClient({ matches, predictions, now }: Props) {
 
   return (
     <>
-      <div className="flex flex-col h-full pb-20">
+      <div className="flex flex-col">
 
         {/* Date tabs */}
         <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 shrink-0">
@@ -67,7 +67,7 @@ export default function MatchesClient({ matches, predictions, now }: Props) {
         </p>
 
         {/* Cards */}
-        <div className="flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+        <div className="flex flex-col gap-3">
           {dayMatches.length === 0 ? (
             <p className="text-sm text-gray-400 text-center py-8">Sin partidos este día.</p>
           ) : (

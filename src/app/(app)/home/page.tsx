@@ -78,12 +78,12 @@ export default async function HomePage() {
   ];
 
   return (
-    <div className="flex flex-col" style={{ height: "100dvh" }}>
+    <div className="flex flex-col overflow-y-auto scrollbar-hide" style={{ height: "100dvh" }}>
 
       {/* ── Profile header ── */}
       <div
-        className="relative flex-[5] min-h-[250px] animate-entrance bg-gradient-to-br from-stone-200 to-amber-50 overflow-hidden"
-        style={{ animationDelay: "0ms" }}
+        className="relative shrink-0 animate-entrance bg-gradient-to-br from-stone-200 to-amber-50 overflow-hidden"
+        style={{ minHeight: "clamp(260px, 42dvh, 360px)", animationDelay: "0ms" }}
       >
         <div className="relative z-10 h-full flex flex-col px-5 pt-4 pb-2">
 
@@ -150,7 +150,7 @@ export default async function HomePage() {
 
       {/* ── Nav cards ── */}
       <div
-        className="grid gap-3 flex-[9] min-h-0 px-4 pt-3 pb-20 bg-gray-100 overflow-y-auto scrollbar-hide"
+        className="grid gap-3 px-4 pt-3 pb-20 bg-gray-100"
         style={{ gridTemplateRows: `repeat(${CARDS.length + (role === "ADMIN" ? 1 : 0)}, minmax(130px, 1fr))` }}
       >
         {CARDS.map(({ href, label, image: img, vtClass, subtitle, badge }, i) => (

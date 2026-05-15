@@ -163,12 +163,12 @@ export default function RankingClient({ entries, currentUserId }: Props) {
   }
 
   return (
-    <div className="flex flex-col animate-entrance" style={{ height: "100dvh" }}>
+    <div className="flex flex-col overflow-y-auto scrollbar-hide animate-entrance" style={{ height: "100dvh" }}>
 
       {/* ── Podio ── */}
       <div
-        className="relative flex-[4] min-h-0 overflow-hidden flex flex-col px-5 pt-4 pb-0"
-        style={{ backgroundImage: "url('/ranking-background.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+        className="relative shrink-0 overflow-hidden flex flex-col px-5 pt-4 pb-0"
+        style={{ height: "clamp(280px, 45dvh, 380px)", backgroundImage: "url('/ranking-background.png')", backgroundSize: "cover", backgroundPosition: "center" }}
       >
         {/* Fireworks — 3 bursts */}
         <div className="fw-burst" />
@@ -197,7 +197,7 @@ export default function RankingClient({ entries, currentUserId }: Props) {
       </div>
 
       {/* ── Lista (4th+) ── */}
-      <div className="flex-[6] min-h-0 overflow-y-auto scrollbar-hide bg-gray-100 px-3 pt-2 pb-20">
+      <div className="bg-gray-100 px-3 pt-2 pb-20">
         {rest.length === 0 ? (
           <p className="text-center py-6" style={{ fontSize: FS.body, color: C.textSecondary }}>
             Solo hay {entries.length} participante{entries.length !== 1 ? "s" : ""}.

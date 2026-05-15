@@ -36,7 +36,7 @@ export default async function MatchesPage() {
   }));
 
   return (
-    <div className="flex flex-col" style={{ height: "100dvh" }}>
+    <div className="flex flex-col overflow-y-auto scrollbar-hide" style={{ height: "100dvh" }}>
 
       {/* ── Header full-width ── */}
       <div className="nav-card h-36 w-full shrink-0 vt-partidos">
@@ -52,7 +52,7 @@ export default async function MatchesPage() {
       </div>
 
       {/* ── Dates + cards ── */}
-      <div className="flex-1 min-h-0 mt-4 px-4">
+      <div className="mt-4 px-4 pb-20">
         <MatchesClient matches={matches} predictions={predictions} now={now} />
       </div>
     </div>
