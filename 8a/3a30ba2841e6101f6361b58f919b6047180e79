@@ -1,0 +1,39 @@
+src/components/RankingClient.tsx
+  s_b255837a75961a::t_07ef3a007e10b1 91
+  s_b255837a75961a::t_6caa26d0fa0af8 40-43,55
+  s_b255837a75961a::t_f78770e3bc7bc7 167-168,170
+  s_b255837a75961a::t_113e863059e2c7 83
+  s_b255837a75961a::t_334f5137ce7db4 23-30
+  s_b255837a75961a::t_46195301d17b2e 119-120
+  s_b255837a75961a::t_c14ec0062d1de7 169
+  s_b255837a75961a::t_3a8a0f7328702c 46
+  s_b255837a75961a::t_c59a009573fdba 102
+  s_b255837a75961a::t_5d68e89f16bd44 104,106-107,115,118,121-123
+  s_b255837a75961a::t_3611e4bcde1eb7 3
+  s_b255837a75961a::t_19e39aae4c7575 13-17
+  s_b255837a75961a::t_58727077f7aa8e 105,109-114,116-117,124
+  s_b255837a75961a::t_f660ab9def3c90 11
+  s_b255837a75961a::t_3b69d62d4cf7b2 66-69,73
+  s_b255837a75961a::t_e8661cd17714e2 90
+src/components/RankingUserSheet.tsx
+  s_b255837a75961a::t_a4de364351a2bf 3
+  s_b255837a75961a::t_cd15d92b1b2ebe 14-17,21
+src/app/globals.css
+  s_b255837a75961a::t_2da8deeacef89d 96-97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "8a3a30ba2841e6101f6361b58f919b6047180e79",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
