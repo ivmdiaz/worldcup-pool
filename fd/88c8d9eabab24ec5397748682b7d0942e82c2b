@@ -1,0 +1,22 @@
+src/components/RankingClient.tsx
+  s_b255837a75961a::t_a0229f2bba0c4c 25
+  s_b255837a75961a::t_0503c4a7b2f210 140-147,149-168
+  s_b255837a75961a::t_e428694988af9a 29,32
+  s_b255837a75961a::t_793e4ae6bc94a2 84,91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "fd88c8d9eabab24ec5397748682b7d0942e82c2b",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
