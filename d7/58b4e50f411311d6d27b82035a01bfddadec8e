@@ -1,0 +1,32 @@
+src/app/(app)/home/page.tsx
+  s_b255837a75961a::t_71bc20ae871e15 86
+  s_b255837a75961a::t_0977ee6524a463 81
+  s_b255837a75961a::t_fea7baf8905ea6 153
+  s_b255837a75961a::t_13f3b662c28145 85
+src/app/(app)/matches/page.tsx
+  s_b255837a75961a::t_bb1958245dd2ff 39
+  s_b255837a75961a::t_e1729f33018d58 55
+src/components/MatchesClient.tsx
+  s_b255837a75961a::t_6b0db8119db70d 41
+  s_b255837a75961a::t_212ea792d09f56 70
+src/components/RankingClient.tsx
+  s_b255837a75961a::t_3958b7118e16f7 171
+  s_b255837a75961a::t_cd5d9af843a0f2 200
+  s_b255837a75961a::t_dd1e8e3d5df754 166,170
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "d758b4e50f411311d6d27b82035a01bfddadec8e",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
