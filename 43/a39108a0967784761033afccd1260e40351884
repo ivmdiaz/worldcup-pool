@@ -1,0 +1,80 @@
+src/lib/ranking.ts
+  s_b255837a75961a::t_6c3fa395c78133 6,16,38
+src/lib/tokens.ts
+  s_b255837a75961a::t_3cb617bd73d213 75-79
+  s_b255837a75961a::t_24ed0359962080 36-64,66-67,71-72
+src/app/(app)/ranking/page.tsx
+  s_b255837a75961a::t_6d3bede6631a2e 1-17
+src/components/AdminResultModal.tsx
+  s_b255837a75961a::t_6fee3cb6e09397 9
+  s_b255837a75961a::t_a1328bfe12e486 72
+  s_b255837a75961a::t_196a8a97e1ade6 101,120
+src/components/RankingClient.tsx
+  s_b255837a75961a::t_7ddc6746f091e1 1-217
+src/app/(app)/ranking/actions.ts
+  s_b255837a75961a::t_358070e43ba1a6 1-63
+src/app/(app)/admin/users/page.tsx
+  s_b255837a75961a::t_1af71283e7caeb 4
+  s_b255837a75961a::t_353608323631ca 21
+src/components/PredictionModal.tsx
+  s_b255837a75961a::t_6dadeca2804a7a 9
+  s_b255837a75961a::t_0a2142fa0f5950 94
+  s_b255837a75961a::t_902e6f0bd931c1 40
+src/components/EditProfileModal.tsx
+  s_b255837a75961a::t_969b8c1bad3ddf 63
+  s_b255837a75961a::t_40f5921a96f69c 7
+  s_b255837a75961a::t_c50eb6306409d9 86
+src/components/RankingUserSheet.tsx
+  s_b255837a75961a::t_311569c643233d 1-149
+src/components/MatchCard.tsx
+  s_b255837a75961a::t_aa6926f2f81fcd 83
+  s_b255837a75961a::t_4fd2dc45a8d311 102
+  s_b255837a75961a::t_b8d05d3e3d3405 167
+  s_b255837a75961a::t_58268d1d70d451 196,200
+  s_b255837a75961a::t_20251db9a863ee 90,93
+  s_b255837a75961a::t_e8b9f4f34c4505 203-204,213
+  s_b255837a75961a::t_9e80280a7b302e 220
+  s_b255837a75961a::t_5a984f18fc5f16 84
+  s_b255837a75961a::t_10614d4cac1bd3 5
+  s_b255837a75961a::t_ab956f015b47f1 105,112
+  s_b255837a75961a::t_041e0c3d7af6f6 152
+  s_b255837a75961a::t_0ac768a8978381 131
+  s_b255837a75961a::t_cc5dc6f8a4b878 108
+  s_b255837a75961a::t_b8acfc30bf26b1 121
+  s_b255837a75961a::t_0840cc0efc8deb 212
+  s_b255837a75961a::t_53632a307fde0f 136
+  s_b255837a75961a::t_b1aacdcf6734f9 171
+src/app/(app)/home/page.tsx
+  s_b255837a75961a::t_1f52945d6839e6 127
+  s_b255837a75961a::t_72e6938e25e715 206-207
+  s_b255837a75961a::t_88a910c6713751 7
+  s_b255837a75961a::t_a4d217b8c3a73f 167
+  s_b255837a75961a::t_0fcaf4adc33347 130,135,147,230,275
+src/components/AdminMatchCard.tsx
+  s_b255837a75961a::t_64b9ce5a5b6864 5
+  s_b255837a75961a::t_81a956641c43fd 39,44-45,52
+  s_b255837a75961a::t_8597a86a7ead11 40
+  s_b255837a75961a::t_f9c6c5daed9a7f 55,62
+  s_b255837a75961a::t_51390b182c7983 72-84,86,88
+  s_b255837a75961a::t_08ce9b81f63d74 71
+  s_b255837a75961a::t_a3ca7a998cd9ed 85
+  s_b255837a75961a::t_cb77583f457ade 95,98
+  s_b255837a75961a::t_3a916334408c66 105
+  s_b255837a75961a::t_3616f5c7af6b03 58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "43a39108a0967784761033afccd1260e40351884",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
