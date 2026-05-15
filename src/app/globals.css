@@ -64,14 +64,11 @@ button, a {
   overflow: hidden;
 }
 
-/* ── Podium float: gentle continuous bounce for podium slots ── */
-@keyframes podiumFloat {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-7px); }
-}
-
-.animate-podium-float {
-  animation: podiumFloat 1.8s ease-in-out infinite;
+/* ── Confetti fall ── */
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+  85%  { opacity: 0.8; }
+  100% { transform: translateY(420px) rotate(540deg); opacity: 0; }
 }
 
 /* ── View Transitions — shared element names ── */
