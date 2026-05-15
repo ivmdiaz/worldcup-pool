@@ -22,14 +22,14 @@ function Avatar({ name, image, size = 48 }: { name: string; image: string | null
   const initials = name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   if (image) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover ring-2 ring-white/80 shrink-0" />;
+    return <img src={image} alt={name} style={{ width: size, height: size }} className="rounded-full object-cover ring-2 ring-stone-300 shrink-0" />;
   }
   return (
     <div
-      className="rounded-full bg-white/20 flex items-center justify-center ring-2 ring-white/80 shrink-0"
+      className="rounded-full bg-stone-300 flex items-center justify-center ring-2 ring-white shrink-0"
       style={{ width: size, height: size }}
     >
-      <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.white }}>
+      <span style={{ fontSize: FS.caption, fontWeight: FW.bold, color: C.textSecondary }}>
         {initials}
       </span>
     </div>
@@ -81,15 +81,14 @@ function PodiumSlot({
         className="text-center leading-tight px-1 w-full truncate"
         style={{
           fontSize: FS.micro, fontWeight: FW.extrabold,
-          color: isCurrent ? "#86efac" : "rgba(255,255,255,0.95)",
-          textShadow: "0 1px 3px rgba(0,0,0,0.4)",
+          color: isCurrent ? C.primary : C.textPrimary,
         }}
       >
         {entry.name.split(" ")[0]}
       </p>
 
       {/* Points */}
-      <p style={{ fontSize: FS.micro, fontWeight: FW.semibold, color: "rgba(255,255,255,0.7)" }}>
+      <p style={{ fontSize: FS.micro, fontWeight: FW.semibold, color: C.textSecondary }}>
         {entry.totalPoints} pts
       </p>
 
@@ -138,50 +137,35 @@ export default function RankingClient({ entries, currentUserId }: Props) {
   return (
     <div className="flex flex-col animate-entrance" style={{ height: "100dvh" }}>
 
-      {/* ── Hero podio ── */}
-      <div className="relative flex-[4] min-h-0 overflow-hidden">
-        {/* Background image — Ken Burns */}
-        <div
-          className="card-bg absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/ranking.png')",
-            "--kb-duration": "20s",
-            "--kb-delay": "-5s",
-          } as React.CSSProperties}
-        />
-        {/* Gradient overlay — más oscuro abajo para que los pedestales se lean */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/15" />
+      {/* ── Podio ── */}
+      <div className="flex-[4] min-h-0 overflow-hidden bg-gradient-to-br from-stone-100 to-amber-50 flex flex-col px-5 pt-4 pb-0">
+        <p
+          className="shrink-0 mb-2"
+          style={{ fontSize: FS.title, fontWeight: FW.extrabold, color: C.textPrimary }}
+        >
+          Ranking
+        </p>
 
-        {/* Content */}
-        <div className="relative z-10 h-full flex flex-col px-5 pt-4 pb-0">
-          <p
-            className="shrink-0 mb-2 text-white drop-shadow-lg"
-            style={{ fontSize: FS.title, fontWeight: FW.extrabold }}
-          >
-            Ranking
-          </p>
-
-          {entries.length === 0 ? (
-            <div className="flex-1 flex items-center justify-center">
-              <p style={{ fontSize: FS.body, color: "rgba(255,255,255,0.7)" }}>Aún sin participantes.</p>
-            </div>
-          ) : (
-            <div className="flex-1 flex items-end justify-center gap-3 min-h-0">
-              {([2, 1, 3] as const).map((pos) => {
-                const entry = entries[pos - 1] ?? null;
-                return (
-                  <PodiumSlot
-                    key={pos}
-                    entry={entry}
-                    position={pos}
-                    isCurrent={entry?.id === currentUserId}
-                    onClick={() => entry && handleSelect(entry, pos)}
-                  />
-                );
-              })}
-            </div>
-          )}
-        </div>
+        {entries.length === 0 ? (
+          <div className="flex-1 flex items-center justify-center">
+            <p style={{ fontSize: FS.body, color: C.textSecondary }}>Aún sin participantes.</p>
+          </div>
+        ) : (
+          <div className="flex-1 flex items-end justify-center gap-3 min-h-0">
+            {([2, 1, 3] as const).map((pos) => {
+              const entry = entries[pos - 1] ?? null;
+              return (
+                <PodiumSlot
+                  key={pos}
+                  entry={entry}
+                  position={pos}
+                  isCurrent={entry?.id === currentUserId}
+                  onClick={() => entry && handleSelect(entry, pos)}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* ── Lista (4th+) ── */}
