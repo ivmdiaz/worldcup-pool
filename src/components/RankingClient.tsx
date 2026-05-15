@@ -122,11 +122,11 @@ function PodiumSlot({
 
       <p
         className="text-center leading-tight px-1 w-full truncate mt-3"
-        style={{ fontSize: FS.micro, fontWeight: FW.extrabold, color: isCurrent ? C.primary : C.textPrimary }}
+        style={{ fontSize: FS.caption, fontWeight: FW.extrabold, color: isCurrent ? C.primary : C.textPrimary }}
       >
         {entry.name.split(" ")[0]}
       </p>
-      <p style={{ fontSize: FS.micro, fontWeight: FW.semibold, color: C.textSecondary }}>
+      <p style={{ fontSize: FS.caption, fontWeight: FW.semibold, color: C.textSecondary }}>
         {entry.totalPoints} pts
       </p>
     </button>
