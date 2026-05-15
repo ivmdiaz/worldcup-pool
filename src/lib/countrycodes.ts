@@ -17,6 +17,8 @@ const CODES: Record<string, string> = {
   "Bosnia y Herzegovina": "ba", "Rep. Dem. del Congo": "cd",
 };
 
+export const TEAM_NAMES = Object.keys(CODES).sort((a, b) => a.localeCompare(b));
+
 export function flagUrl(team: string): string | null {
   const code = CODES[team];
   if (!code) return null;

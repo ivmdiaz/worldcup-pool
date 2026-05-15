@@ -10,7 +10,21 @@ export default async function MatchesPage() {
   const userId = session!.user!.id;
 
   const [rawMatches, rawPredictions] = await Promise.all([
-    prisma.match.findMany({ orderBy: { scheduledAt: "asc" } }),
+    prisma.match.findMany({
+      where: {
+        AND: [
+          { homeTeam: { not: { startsWith: "Ganador" } } },
+          { homeTeam: { not: { startsWith: "Subcampeón" } } },
+          { homeTeam: { not: { startsWith: "Mejor" } } },
+          { homeTeam: { not: { startsWith: "Perdedor" } } },
+          { awayTeam: { not: { startsWith: "Ganador" } } },
+          { awayTeam: { not: { startsWith: "Subcampeón" } } },
+          { awayTeam: { not: { startsWith: "Mejor" } } },
+          { awayTeam: { not: { startsWith: "Perdedor" } } },
+        ],
+      },
+      orderBy: { scheduledAt: "asc" },
+    }),
     prisma.prediction.findMany({ where: { userId } }),
   ]);
 

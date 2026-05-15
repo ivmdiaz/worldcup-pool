@@ -34,3 +34,17 @@ export async function updateMatchResult(formData: FormData) {
   revalidatePath("/matches");
   revalidatePath("/home");
 }
+
+export async function updateMatchTeams(matchId: string, homeTeam: string, awayTeam: string) {
+  const session = await auth();
+  if (session?.user?.role !== "ADMIN") return;
+  if (!matchId || !homeTeam.trim() || !awayTeam.trim()) return;
+
+  await prisma.match.update({
+    where: { id: matchId },
+    data: { homeTeam: homeTeam.trim(), awayTeam: awayTeam.trim() },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/matches");
+}
