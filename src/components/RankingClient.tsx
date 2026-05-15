@@ -17,30 +17,35 @@ const PODIUM_PB: Record<1 | 2 | 3, number> = { 1: 64, 2: 32, 3: 12 };
 // ── Confetti ──────────────────────────────────────────────────────────────────
 const CONFETTI_COLORS = ["#F59E0B", "#1E8E3E", "#60A5FA", "#F87171", "#A78BFA", "#34D399", "#FB923C"];
 
-// Orígenes detrás de cada avatar — orden render: [#2 left, #1 center, #3 right]
-// x: centros de las 3 columnas flex (con px-5). y: altura aprox. del avatar de cada posición
+// Orígenes en el centro de cada avatar — orden render: [#2 left, #1 center, #3 right]
+// y valores: avatar de #1 está más arriba (pb=64), #2 medio (pb=32), #3 más abajo (pb=12)
 const ORIGINS = [
-  { x: 20, y: 80 },  // detrás de #2 (izquierda, pb=32 → avatar más abajo)
-  { x: 50, y: 68 },  // detrás de #1 (centro,   pb=64 → avatar más arriba)
-  { x: 80, y: 86 },  // detrás de #3 (derecha,  pb=12 → avatar más abajo aún)
+  { x: 20, y: 60 },  // centro avatar #2
+  { x: 50, y: 46 },  // centro avatar #1 (más arriba)
+  { x: 80, y: 68 },  // centro avatar #3
 ];
 
-const CONFETTI = Array.from({ length: 39 }, (_, i) => {
-  const angle = (i / 39) * Math.PI * 2;                  // 360° completos
-  const dist  = 80 + (i % 4) * 30;                       // 80–170 px de alcance
-  const origin = ORIGINS[i % 3];
+const SPARK_LENGTHS = [8, 12, 10, 14, 9, 13];
+
+const CONFETTI = Array.from({ length: 42 }, (_, i) => {
+  const angle   = (i / 42) * Math.PI * 2;           // 360° completos
+  const dist    = 70 + (i % 5) * 25;                // 70–170px
+  const origin  = ORIGINS[i % 3];
+  // Rotación = ángulo de viaje + 90° (porque height es el eje largo del div)
+  const travelDeg = angle * (180 / Math.PI);
+  const rotateDeg = Math.round(travelDeg + 90);
   return {
     id:       i,
     color:    CONFETTI_COLORS[i % CONFETTI_COLORS.length],
     left:     `${origin.x}%`,
     top:      `${origin.y}%`,
     fwX:      Math.round(Math.cos(angle) * dist),
-    fwY:      Math.round(Math.sin(angle) * dist - 110),   // sesgo hacia arriba
-    rotation: (i * 137) % 720,
-    duration: `${1.0 + (i % 4) * 0.18}s`,
-    delay:    `${(i % 3) * 0.4}s`,                        // stagger por origen
-    size:     [5, 7, 6, 8, 6][i % 5],
-    round:    i % 3 !== 0,
+    fwY:      Math.round(Math.sin(angle) * dist - 100), // sesgo arriba
+    rotation: rotateDeg,
+    duration: `${0.9 + (i % 4) * 0.15}s`,
+    delay:    `${(i % 3) * 0.38}s`,
+    width:    i % 5 === 0 ? 3 : 2,                  // mayoría 2px, algunos 3px
+    height:   SPARK_LENGTHS[i % 6],                 // 8–14px de largo
   };
 });
 
@@ -187,10 +192,10 @@ export default function RankingClient({ entries, currentUserId }: Props) {
                 position: "absolute",
                 left: p.left,
                 top: p.top,
-                width: p.size,
-                height: p.size,
+                width: p.width,
+                height: p.height,
                 backgroundColor: p.color,
-                borderRadius: p.round ? "50%" : "2px",
+                borderRadius: "1px",
                 "--fw-x": `${p.fwX}px`,
                 "--fw-y": `${p.fwY}px`,
                 "--fw-r": `${p.rotation}deg`,

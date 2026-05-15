@@ -64,11 +64,11 @@ button, a {
   overflow: hidden;
 }
 
-/* ── Firework confetti — radial burst desde origen, usa CSS vars por partícula ── */
+/* ── Firework sparks — líneas orientadas en dirección de viaje ── */
 @keyframes firework {
-  0%   { transform: translate(0, 0) rotate(0deg) scale(1.1); opacity: 1; }
-  60%  { opacity: 0.85; }
-  100% { transform: translate(var(--fw-x), var(--fw-y)) rotate(var(--fw-r)) scale(0.2); opacity: 0; }
+  0%   { transform: translate(0, 0) rotate(var(--fw-r)) scaleY(1.4); opacity: 1; }
+  60%  { opacity: 0.9; }
+  100% { transform: translate(var(--fw-x), var(--fw-y)) rotate(var(--fw-r)) scaleY(0.3); opacity: 0; }
 }
 
 /* ── View Transitions — shared element names ── */
