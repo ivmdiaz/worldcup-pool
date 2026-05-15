@@ -17,35 +17,25 @@ const PODIUM_PB: Record<1 | 2 | 3, number> = { 1: 64, 2: 32, 3: 12 };
 // ── Confetti ──────────────────────────────────────────────────────────────────
 const CONFETTI_COLORS = ["#F59E0B", "#1E8E3E", "#60A5FA", "#F87171", "#A78BFA", "#34D399", "#FB923C"];
 
-// Orígenes en el centro de cada avatar — orden render: [#2 left, #1 center, #3 right]
-// y valores: avatar de #1 está más arriba (pb=64), #2 medio (pb=32), #3 más abajo (pb=12)
-const ORIGINS = [
-  { x: 20, y: 60 },  // centro avatar #2
-  { x: 50, y: 46 },  // centro avatar #1 (más arriba)
-  { x: 80, y: 68 },  // centro avatar #3
-];
-
 const SPARK_LENGTHS = [8, 12, 10, 14, 9, 13];
 
 const CONFETTI = Array.from({ length: 42 }, (_, i) => {
-  const angle   = (i / 42) * Math.PI * 2;           // 360° completos
-  const dist    = 70 + (i % 5) * 25;                // 70–170px
-  const origin  = ORIGINS[i % 3];
-  // Rotación = ángulo de viaje + 90° (porque height es el eje largo del div)
+  const angle     = (i / 42) * Math.PI * 2;
+  const dist      = 80 + (i % 5) * 30;              // 80–200px
   const travelDeg = angle * (180 / Math.PI);
   const rotateDeg = Math.round(travelDeg + 90);
   return {
     id:       i,
     color:    CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-    left:     `${origin.x}%`,
-    top:      `${origin.y}%`,
+    left:     "50%",                                 // un solo origen — centro del podio
+    top:      "0%",                                  // parte superior de la sección
     fwX:      Math.round(Math.cos(angle) * dist),
-    fwY:      Math.round(Math.sin(angle) * dist - 100), // sesgo arriba
+    fwY:      Math.round(Math.sin(angle) * dist),    // sin sesgo — explosión simétrica
     rotation: rotateDeg,
-    duration: `${0.9 + (i % 4) * 0.15}s`,
-    delay:    `${(i % 3) * 0.38}s`,
-    width:    i % 5 === 0 ? 3 : 2,                  // mayoría 2px, algunos 3px
-    height:   SPARK_LENGTHS[i % 6],                 // 8–14px de largo
+    duration: `${0.8 + (i % 5) * 0.12}s`,
+    delay:    `${(i * 0.07) % 1.4}s`,               // stagger suave por partícula
+    width:    i % 5 === 0 ? 3 : 2,
+    height:   SPARK_LENGTHS[i % 6],
   };
 });
 
