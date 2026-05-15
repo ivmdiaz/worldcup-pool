@@ -82,7 +82,7 @@ function PodiumSlot({
   onClick: () => void;
 }) {
   const medalColor = MEDAL_COLOR[position - 1];
-  const avatarSize = position === 1 ? 66 : 52;
+  const avatarSize = position === 1 ? 84 : 52;
   const pb = PODIUM_PB[position];
 
   if (!entry) return <div className="flex-1" />;
