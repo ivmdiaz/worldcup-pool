@@ -96,7 +96,7 @@ export default async function HomePage() {
               initials={initials}
             />
             <div className="min-w-0 flex-1">
-              <p className="text-stone-900 font-extrabold leading-tight" style={{ fontSize: FS.title }}>{name}</p>
+              <p className="text-stone-900 font-extrabold leading-tight text-center" style={{ fontSize: FS.title }}>{name}</p>
               <div className="flex mt-4">
                 <div className="flex flex-col flex-1 items-center">
                   <span className="text-stone-900 font-extrabold tabular-nums leading-none" style={{ fontSize: FS.hero }}>{totalPoints}</span>
