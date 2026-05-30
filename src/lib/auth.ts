@@ -15,10 +15,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === "google" && profile?.picture && user.id) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { googleImage: profile.picture as string },
-        });
+        try {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { googleImage: profile.picture as string },
+          });
+        } catch {
+          // No bloquear el login si falla el update de googleImage
+        }
       }
       return true;
     },
