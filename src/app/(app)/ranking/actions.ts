@@ -8,11 +8,11 @@ export type PredictionDetail = {
   awayTeam: string;
   scheduledAt: string;
   group: string | null;
-  homeScore: number;
-  awayScore: number;
+  homeScore: number | null;
+  awayScore: number | null;
   predHome: number;
   predAway: number;
-  points: number;
+  points: number | null;
 };
 
 export type UserDetail = {
@@ -29,7 +29,7 @@ export async function getUserDetail(userId: string): Promise<UserDetail> {
       select: { id: true, name: true, image: true },
     }),
     prisma.prediction.findMany({
-      where: { userId, points: { not: null } },
+      where: { userId, match: { scheduledAt: { lt: new Date() } } },
       include: {
         match: {
           select: {
@@ -43,21 +43,23 @@ export async function getUserDetail(userId: string): Promise<UserDetail> {
     }),
   ]);
 
-  return {
-    id: user?.id ?? userId,
-    name: user?.name ?? null,
-    image: user?.image ?? null,
-    predictions: predictions.map((p) => ({
+  const mapped = predictions.map((p) => ({
       matchId:     p.matchId,
       homeTeam:    p.match.homeTeam,
       awayTeam:    p.match.awayTeam,
       scheduledAt: p.match.scheduledAt.toISOString(),
       group:       p.match.group,
-      homeScore:   p.match.homeScore ?? 0,
-      awayScore:   p.match.awayScore ?? 0,
+      homeScore:   p.match.homeScore,
+      awayScore:   p.match.awayScore,
       predHome:    p.homeScore,
       predAway:    p.awayScore,
-      points:      p.points ?? 0,
-    })),
+      points:      p.points,
+    }));
+
+  return {
+    id: user?.id ?? userId,
+    name: user?.name ?? null,
+    image: user?.image ?? null,
+    predictions: mapped as PredictionDetail[],
   };
 }

@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getRanking } from "@/lib/ranking";
 import EditProfileButton from "@/components/EditProfileButton";
 import NavCardLink from "@/components/NavCardLink";
 import { formatTime } from "@/lib/datetime";
@@ -18,14 +19,10 @@ export default async function HomePage() {
   const session = await auth();
   const userId = session!.user!.id;
 
-  const [scoredPredictions, predictionsMade, allPoints, pendingCount, nextKickoff] = await Promise.all([
+  const [scoredPredictions, predictionsMade, ranking, pendingCount, nextKickoff] = await Promise.all([
     prisma.prediction.findMany({ where: { userId, points: { not: null } } }),
     prisma.prediction.count({ where: { userId } }),
-    prisma.prediction.groupBy({
-      by: ["userId"],
-      where: { points: { not: null }, user: { role: { in: ["USER", "ADMIN"] } } },
-      _sum: { points: true },
-    }),
+    getRanking(),
     prisma.match.count({
       where: { status: "SCHEDULED", scheduledAt: { gt: new Date() }, predictions: { none: { userId } } },
     }),
@@ -38,7 +35,7 @@ export default async function HomePage() {
 
   const totalPoints    = scoredPredictions.reduce((s, p) => s + (p.points ?? 0), 0);
   const { exactCount, winCount, missCount } = getPredictionStats(scoredPredictions);
-  const position       = allPoints.filter((u) => (u._sum.points ?? 0) > totalPoints).length + 1;
+  const position       = (ranking.findIndex((e) => e.id === userId) + 1) || ranking.length;
   const nextKickoffStr = nextKickoff ? formatTime(nextKickoff.scheduledAt) : null;
   const effectivePredictionsMade = predictionsMade;
   const effectivePendingCount    = pendingCount;

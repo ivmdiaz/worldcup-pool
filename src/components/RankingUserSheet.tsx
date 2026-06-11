@@ -33,11 +33,12 @@ function Avatar({ name, image, size = 56 }: { name: string; image: string | null
   );
 }
 
-function PointsPill({ pts }: { pts: number }) {
+function PointsPill({ pts }: { pts: number | null }) {
   const styles =
-    pts === 3 ? { bg: C.successBg, text: C.successText, border: C.successBorder, label: "+3 pts" } :
-    pts === 1 ? { bg: C.warningBg, text: C.warningText, border: C.warningBorder, label: "+1 pt"  } :
-                { bg: C.neutralBg, text: C.neutralText, border: C.neutralBorder, label: "0 pts"  };
+    pts === 3   ? { bg: C.successBg, text: C.successText, border: C.successBorder, label: "+3 pts"   } :
+    pts === 1   ? { bg: C.warningBg, text: C.warningText, border: C.warningBorder, label: "+1 pt"    } :
+    pts === 0   ? { bg: C.neutralBg, text: C.neutralText, border: C.neutralBorder, label: "0 pts"    } :
+                  { bg: C.dangerBg,  text: C.dangerText,  border: C.dangerBorder,  label: "En juego" };
   return (
     <span
       className="rounded-full shrink-0"
@@ -106,7 +107,7 @@ export default function RankingUserSheet({ entry, position, detail, loading, onC
           {loading ? (
             <p className="text-center py-8" style={{ fontSize: FS.body, color: C.textSecondary }}>Cargando...</p>
           ) : !detail || detail.predictions.length === 0 ? (
-            <p className="text-center py-8" style={{ fontSize: FS.body, color: C.textSecondary }}>Sin pronósticos finalizados.</p>
+            <p className="text-center py-8" style={{ fontSize: FS.body, color: C.textSecondary }}>Sin pronósticos registrados.</p>
           ) : (
             <div className="flex flex-col gap-3">
               {detail.predictions.map((p) => (
@@ -128,14 +129,16 @@ export default function RankingUserSheet({ entry, position, detail, loading, onC
                       {p.homeTeam} vs {p.awayTeam}
                     </p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p style={LABEL}>Resultado</p>
-                      <p className="tabular-nums mt-0.5" style={{ fontSize: FS.title, fontWeight: FW.medium, color: C.scoreText }}>
-                        {p.homeScore}{SEP}{p.awayScore}
-                      </p>
-                    </div>
-                    <div className="text-right">
+                  <div className={`grid gap-4 ${p.homeScore !== null ? "grid-cols-2" : "grid-cols-1"}`}>
+                    {p.homeScore !== null && (
+                      <div>
+                        <p style={LABEL}>Resultado</p>
+                        <p className="tabular-nums mt-0.5" style={{ fontSize: FS.title, fontWeight: FW.medium, color: C.scoreText }}>
+                          {p.homeScore}{SEP}{p.awayScore}
+                        </p>
+                      </div>
+                    )}
+                    <div className={p.homeScore !== null ? "text-right" : ""}>
                       <p style={LABEL}>Pronóstico</p>
                       <p className="tabular-nums mt-0.5" style={{ fontSize: FS.title, fontWeight: FW.medium, color: C.scoreText }}>
                         {p.predHome}{SEP}{p.predAway}
