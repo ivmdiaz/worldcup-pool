@@ -1,0 +1,33 @@
+src/components/RankingUserSheet.tsx
+  s_b255837a75961a::t_df08d2b4331278 110
+  s_b255837a75961a::t_c0c05bdeec6d38 36,38-41
+  s_b255837a75961a::t_347e105b93fc16 132-141
+src/app/(app)/ranking/actions.ts
+  s_b255837a75961a::t_00c9d14c1641d6 32
+  s_b255837a75961a::t_ea550cde8e958a 46
+  s_b255837a75961a::t_0ad43b24b0eedd 52-53,56
+  s_b255837a75961a::t_4bc752f6d5595d 57-62
+  s_b255837a75961a::t_0b3b63803f2c52 63
+  s_b255837a75961a::t_20b9ac09a6b72d 11-12,15
+src/lib/ranking.ts
+  s_b255837a75961a::t_88e1818df15be5 13,29-32,35-37,44-47,49-53
+src/app/(app)/home/page.tsx
+  s_b255837a75961a::t_ad4ce346ae3780 3
+  s_b255837a75961a::t_ffd36e0fa5f133 22,25,38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "46b1b91e60b012926a1877a7bf95d78ff14c6f81",
+  "prompts": {},
+  "sessions": {
+    "s_b255837a75961a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "114bc27a-c80d-4ef5-8894-da0aa0bc7175",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ivdiazaranda <ivan.diazaranda@mercadolibre.com.co>"
+    }
+  }
+}
