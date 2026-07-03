@@ -34,11 +34,12 @@ function Avatar({ name, image, size = 56 }: { name: string; image: string | null
 }
 
 function PointsPill({ pts }: { pts: number | null }) {
+  const label = pts === null ? "En juego" : pts > 0 ? `+${pts} pt${pts !== 1 ? "s" : ""}` : "0 pts";
   const styles =
-    pts === 3   ? { bg: C.successBg, text: C.successText, border: C.successBorder, label: "+3 pts"   } :
-    pts === 1   ? { bg: C.warningBg, text: C.warningText, border: C.warningBorder, label: "+1 pt"    } :
-    pts === 0   ? { bg: C.neutralBg, text: C.neutralText, border: C.neutralBorder, label: "0 pts"    } :
-                  { bg: C.dangerBg,  text: C.dangerText,  border: C.dangerBorder,  label: "En juego" };
+    pts === null ? { bg: C.dangerBg,  text: C.dangerText,  border: C.dangerBorder  } :
+    pts >= 3     ? { bg: C.successBg, text: C.successText, border: C.successBorder } :
+    pts > 0      ? { bg: C.warningBg, text: C.warningText, border: C.warningBorder } :
+                   { bg: C.neutralBg, text: C.neutralText, border: C.neutralBorder };
   return (
     <span
       className="rounded-full shrink-0"
@@ -49,7 +50,7 @@ function PointsPill({ pts }: { pts: number | null }) {
         padding: "4px 10px",
       }}
     >
-      {styles.label}
+      {label}
     </span>
   );
 }

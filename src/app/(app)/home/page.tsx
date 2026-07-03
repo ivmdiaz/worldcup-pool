@@ -128,14 +128,13 @@ export default async function HomePage() {
             ) : (
               <div className="grid grid-cols-3">
                 {[
-                  { value: exactCount, label: "Exactos",    sublabel: "3 pts" },
-                  { value: winCount,   label: "Ganador",    sublabel: "1 pt"  },
-                  { value: missCount,  label: "Sin puntos", sublabel: "0 pts" },
-                ].map(({ value, label, sublabel }, i) => (
+                  { value: exactCount, label: "Exactos"    },
+                  { value: winCount,   label: "Ganador"    },
+                  { value: missCount,  label: "Sin puntos" },
+                ].map(({ value, label }, i) => (
                   <div key={label} className={`flex flex-col items-center ${i > 0 ? "border-l border-stone-200" : ""}`}>
                     <span className="font-extrabold text-gray-900 tabular-nums leading-none" style={{ fontSize: FS.title }}>{value}</span>
                     <span className="text-[12px] font-bold text-gray-500 mt-0.5">{label}</span>
-                    <span className="text-[11px] font-medium text-gray-400 leading-tight">{sublabel}</span>
                   </div>
                 ))}
               </div>

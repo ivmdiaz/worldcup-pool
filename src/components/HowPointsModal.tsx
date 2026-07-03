@@ -7,10 +7,31 @@ interface Props {
   onClose: () => void;
 }
 
-const ITEMS = [
-  { label: "Exacto",     sub: "Resultado exacto",         value: "+3 pts", color: "text-green-700 bg-green-50"  },
-  { label: "Ganador",    sub: "Acertás ganador o empate",  value: "+1 pt",  color: "text-amber-700 bg-amber-50"  },
-  { label: "Sin puntos", sub: "Resultado incorrecto",      value: "0 pts",  color: "text-gray-500 bg-gray-100"   },
+const PHASES = [
+  {
+    title: "Fase de grupos · Ronda de 32",
+    items: [
+      { label: "Exacto",     sub: "Resultado exacto",        value: "+3 pts", color: "text-green-700 bg-green-50" },
+      { label: "Ganador",    sub: "Acertás ganador o empate", value: "+1 pt",  color: "text-amber-700 bg-amber-50" },
+      { label: "Sin puntos", sub: "Resultado incorrecto",     value: "0 pts",  color: "text-gray-500 bg-gray-100"  },
+    ],
+  },
+  {
+    title: "Octavos · Cuartos · Semis · 3er puesto",
+    items: [
+      { label: "Exacto",     sub: "Resultado exacto",        value: "+5 pts", color: "text-green-700 bg-green-50" },
+      { label: "Ganador",    sub: "Acertás ganador o empate", value: "+2 pts", color: "text-amber-700 bg-amber-50" },
+      { label: "Sin puntos", sub: "Resultado incorrecto",     value: "0 pts",  color: "text-gray-500 bg-gray-100"  },
+    ],
+  },
+  {
+    title: "Final",
+    items: [
+      { label: "Exacto",     sub: "Resultado exacto",        value: "+10 pts", color: "text-green-700 bg-green-50" },
+      { label: "Ganador",    sub: "Acertás ganador o empate", value: "+5 pts",  color: "text-amber-700 bg-amber-50" },
+      { label: "Sin puntos", sub: "Resultado incorrecto",     value: "0 pts",   color: "text-gray-500 bg-gray-100"  },
+    ],
+  },
 ];
 
 export default function HowPointsModal({ onClose }: Props) {
@@ -29,14 +50,21 @@ export default function HowPointsModal({ onClose }: Props) {
         <div className="px-6 pt-2 pb-4">
           <h2 className="text-lg font-bold text-gray-900">Cómo ganas puntos</h2>
         </div>
-        <div className="px-6 divide-y divide-gray-100">
-          {ITEMS.map(({ label, sub, value, color }) => (
-            <div key={label} className="flex items-center justify-between py-3">
-              <div>
-                <p className="text-sm font-bold text-gray-800">{label}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{sub}</p>
+        <div className="px-6 flex flex-col gap-4 pb-2">
+          {PHASES.map(({ title, items }) => (
+            <div key={title}>
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">{title}</p>
+              <div className="divide-y divide-gray-100 border border-gray-100 rounded-xl overflow-hidden">
+                {items.map(({ label, sub, value, color }) => (
+                  <div key={label} className="flex items-center justify-between px-3 py-2.5 bg-white">
+                    <div>
+                      <p className="text-sm font-bold text-gray-800">{label}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{sub}</p>
+                    </div>
+                    <span className={`text-sm font-bold px-2.5 py-1 rounded-full ${color}`}>{value}</span>
+                  </div>
+                ))}
               </div>
-              <span className={`text-sm font-bold px-2.5 py-1 rounded-full ${color}`}>{value}</span>
             </div>
           ))}
         </div>

@@ -40,9 +40,10 @@ type Pill = { text: string; bg: string; color: string; border: string };
 function getHeaderPill(computedStatus: ComputedStatus, prediction?: MatchCardPrediction): Pill {
   if (computedStatus === "FINISHED") {
     const pts = prediction ? (prediction.points ?? 0) : 0;
-    if (pts === 3) return { text: "+3 pts", bg: C.successBg, color: C.successText, border: C.successBorder };
-    if (pts === 1) return { text: "+1 pt",  bg: C.warningBg, color: C.warningText, border: C.warningBorder };
-    return                 { text: "0 pts",  bg: C.neutralBg, color: C.neutralText, border: C.neutralBorder };
+    const label = pts > 0 ? `+${pts} pt${pts !== 1 ? "s" : ""}` : "0 pts";
+    if (pts >= 3) return { text: label, bg: C.successBg, color: C.successText, border: C.successBorder };
+    if (pts > 0)  return { text: label, bg: C.warningBg, color: C.warningText, border: C.warningBorder };
+    return                { text: label, bg: C.neutralBg, color: C.neutralText, border: C.neutralBorder };
   }
   const map: Record<string, Pill> = {
     PENDING: { text: "Pendiente", bg: C.successBg, color: C.successText, border: C.successBorder },

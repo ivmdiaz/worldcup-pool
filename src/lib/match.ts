@@ -14,22 +14,34 @@ export function computeMatchStatus(
   return "PENDING";
 }
 
-// ── Points calculation (3-1-0 rule) ──────────────────────────────────────────
+// ── Points calculation ────────────────────────────────────────────────────────
+
+const STAGE_POINTS: Record<string, { exact: number; winner: number }> = {
+  group:        { exact: 3,  winner: 1 },
+  round_of_32:  { exact: 3,  winner: 1 },
+  round_of_16:  { exact: 5,  winner: 2 },
+  quarter:      { exact: 5,  winner: 2 },
+  semi:         { exact: 5,  winner: 2 },
+  third_place:  { exact: 5,  winner: 2 },
+  final:        { exact: 10, winner: 5 },
+};
 
 export function calculatePoints(
   predHome: number,
   predAway: number,
   realHome: number,
-  realAway: number
+  realAway: number,
+  stage = "group"
 ): number {
-  if (predHome === realHome && predAway === realAway) return 3;
+  const { exact, winner } = STAGE_POINTS[stage] ?? STAGE_POINTS.group;
+  if (predHome === realHome && predAway === realAway) return exact;
   const realDiff = realHome - realAway;
   const predDiff = predHome - predAway;
   if (
     (realDiff > 0 && predDiff > 0) ||
     (realDiff < 0 && predDiff < 0) ||
     (realDiff === 0 && predDiff === 0)
-  ) return 1;
+  ) return winner;
   return 0;
 }
 

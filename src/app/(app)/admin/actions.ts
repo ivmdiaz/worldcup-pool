@@ -15,9 +15,10 @@ export async function updateMatchResult(formData: FormData) {
 
   if (!matchId || isNaN(homeScore) || isNaN(awayScore)) return;
 
-  await prisma.match.update({
+  const match = await prisma.match.update({
     where: { id: matchId },
     data: { homeScore, awayScore, status: "FINISHED" },
+    select: { stage: true },
   });
 
   // Recalcular puntos para todas las predicciones de este partido
@@ -25,7 +26,7 @@ export async function updateMatchResult(formData: FormData) {
 
   await Promise.all(
     predictions.map((pred) => {
-      const points = calculatePoints(pred.homeScore, pred.awayScore, homeScore, awayScore);
+      const points = calculatePoints(pred.homeScore, pred.awayScore, homeScore, awayScore, match.stage);
       return prisma.prediction.update({ where: { id: pred.id }, data: { points } });
     })
   );
